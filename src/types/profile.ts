@@ -33,7 +33,7 @@ export interface ProfileAnalysis {
 export interface ProfileAnalysisRecord {
   id: string
   user_id: string
-  type: string
+  type: 'linkedin' | 'github' | 'combined'
   input_text: string | null
   result_json: ProfileAnalysis | null
   created_at: string
