@@ -1,7 +1,7 @@
 'use client'
 
 import { useTransition, useState, useRef } from 'react'
-import { Github, Linkedin, Loader2 } from 'lucide-react'
+import { GitBranch, Link, Loader2 } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { analyzeProfileAction } from '../actions'
@@ -44,7 +44,7 @@ export function ProfileInputForm({ onResult }: ProfileInputFormProps) {
       {/* GitHub Username */}
       <div className="space-y-2">
         <label className="flex items-center gap-2 text-sm font-medium" htmlFor="githubUsername">
-          <Github className="w-4 h-4" style={{ color: 'oklch(0.58 0.21 291)' }} />
+          <GitBranch className="w-4 h-4" style={{ color: 'oklch(0.58 0.21 291)' }} />
           שם משתמש GitHub
         </label>
         <div className="relative">
@@ -78,7 +78,7 @@ export function ProfileInputForm({ onResult }: ProfileInputFormProps) {
       {/* LinkedIn Text */}
       <div className="space-y-2">
         <label className="flex items-center gap-2 text-sm font-medium" htmlFor="linkedinText">
-          <Linkedin className="w-4 h-4" style={{ color: 'oklch(0.58 0.21 291)' }} />
+          <Link className="w-4 h-4" style={{ color: 'oklch(0.58 0.21 291)' }} />
           טקסט LinkedIn
         </label>
         <p className="text-xs text-muted-foreground">

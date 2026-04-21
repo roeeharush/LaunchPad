@@ -55,6 +55,24 @@
     "suggestions": "המלצות לשיפור",
     "rewriteExample": "דוגמה לניסוח מחדש"
   },
+  "profile": {
+    "title": "דירוג פרופיל מקצועי",
+    "subtitle": "GitHub + LinkedIn → Online Brand Score",
+    "githubLabel": "שם משתמש GitHub",
+    "linkedinLabel": "טקסט LinkedIn",
+    "linkedinHint": "העתק והדבק את קטע ה-About ו/או ה-Experience מפרופיל ה-LinkedIn שלך",
+    "analyze": "נתח את הפרופיל שלי",
+    "analyzing": "מנתח פרופיל...",
+    "techScore": "Tech Score — GitHub",
+    "professionalScore": "Professional Score — LinkedIn",
+    "brandScore": "Online Brand Score",
+    "strengths": "נקודות חוזק",
+    "improvements": "לשיפור",
+    "topTips": "פעולות עדיפות להגדיל את הסיכוי להתגלות",
+    "history": "ניתוחים קודמים",
+    "empty": "ממתין לניתוח",
+    "emptyHint": "הזן שם משתמש GitHub והדבק טקסט מ-LinkedIn כדי לקבל את ה-Online Brand Score שלך"
+  },
   "errors": {
     "uploadFailed": "ההעלאה נכשלה. נסה שוב.",
     "analysisFailed": "הניתוח נכשל. נסה שוב.",
