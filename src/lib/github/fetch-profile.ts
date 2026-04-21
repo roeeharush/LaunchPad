@@ -33,14 +33,20 @@ export async function fetchGitHubProfile(username: string): Promise<GitHubProfil
     throw new Error(`שגיאה בגישה ל-GitHub API: ${userRes.status}`)
   }
 
-  const user = (await userRes.json()) as {
+  let user: {
     login: string
     name: string | null
     bio: string | null
     public_repos: number
     followers: number
   }
+  try {
+    user = (await userRes.json()) as typeof user
+  } catch {
+    throw new Error('שגיאה בפענוח תשובת GitHub API')
+  }
 
+  // Repos fetch is best-effort: if it fails, Claude grades from user profile data alone
   const rawRepos: Array<{
     name: string
     description: string | null
