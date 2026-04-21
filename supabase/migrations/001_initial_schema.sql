@@ -17,7 +17,7 @@ CREATE POLICY "Users see own resumes" ON resumes
 CREATE TABLE profile_analyses (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid REFERENCES auth.users NOT NULL,
-  type text NOT NULL CHECK (type IN ('linkedin', 'github')),
+  type text NOT NULL CHECK (type IN ('linkedin', 'github', 'combined')),
   input_text text,
   result_json jsonb,
   created_at timestamptz DEFAULT now()
