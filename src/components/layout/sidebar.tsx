@@ -24,7 +24,12 @@ const navItems: { href: string; icon: typeof LayoutDashboard; key: NavKey; color
     key: 'dashboard',
     color: 'oklch(0.585 0.212 264.4)',
   },
-  { href: '/resume', icon: FileText, key: 'resume', color: 'oklch(0.585 0.212 264.4)' },
+  {
+    href: '/dashboard/resume-analyzer',
+    icon: FileText,
+    key: 'resume',
+    color: 'oklch(0.585 0.212 264.4)',
+  },
   { href: '/profile', icon: User, key: 'profile', color: 'oklch(0.58 0.21 291)' },
   { href: '/trends', icon: TrendingUp, key: 'trends', color: 'oklch(0.60 0.17 162)' },
   { href: '/jobs', icon: Briefcase, key: 'jobs', color: 'oklch(0.75 0.16 60)' },
