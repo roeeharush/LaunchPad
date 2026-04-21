@@ -9,51 +9,46 @@ const modules = [
     href: '/resume',
     icon: FileText,
     titleKey: 'resume',
-    descKey: 'noAnalysis',
     color: 'oklch(0.585 0.212 264.4)',
     bg: 'oklch(0.585 0.212 264.4 / 12%)',
     border: 'oklch(0.585 0.212 264.4 / 25%)',
-    glow: 'oklch(0.585 0.212 264.4 / 20%)',
+    glow: 'oklch(0.585 0.212 264.4 / 30%)',
   },
   {
     href: '/profile',
     icon: User,
     titleKey: 'profile',
-    descKey: 'noAnalysis',
     color: 'oklch(0.58 0.21 291)',
     bg: 'oklch(0.58 0.21 291 / 12%)',
     border: 'oklch(0.58 0.21 291 / 25%)',
-    glow: 'oklch(0.58 0.21 291 / 20%)',
+    glow: 'oklch(0.58 0.21 291 / 30%)',
   },
   {
     href: '/trends',
     icon: TrendingUp,
     titleKey: 'trends',
-    descKey: 'noAnalysis',
     color: 'oklch(0.60 0.17 162)',
     bg: 'oklch(0.60 0.17 162 / 12%)',
     border: 'oklch(0.60 0.17 162 / 25%)',
-    glow: 'oklch(0.60 0.17 162 / 20%)',
+    glow: 'oklch(0.60 0.17 162 / 30%)',
   },
   {
     href: '/jobs',
     icon: Briefcase,
     titleKey: 'jobs',
-    descKey: 'noAnalysis',
     color: 'oklch(0.75 0.16 60)',
     bg: 'oklch(0.75 0.16 60 / 12%)',
     border: 'oklch(0.75 0.16 60 / 25%)',
-    glow: 'oklch(0.75 0.16 60 / 20%)',
+    glow: 'oklch(0.75 0.16 60 / 30%)',
   },
   {
     href: '/learn',
     icon: BookOpen,
     titleKey: 'learn',
-    descKey: 'noAnalysis',
     color: 'oklch(0.65 0.15 211)',
     bg: 'oklch(0.65 0.15 211 / 12%)',
     border: 'oklch(0.65 0.15 211 / 25%)',
-    glow: 'oklch(0.65 0.15 211 / 20%)',
+    glow: 'oklch(0.65 0.15 211 / 30%)',
   },
 ] as const
 
@@ -81,20 +76,18 @@ export default function DashboardPage() {
             key={href}
             href={href}
             className={cn(
-              'group relative rounded-2xl p-6 flex flex-col gap-5 border',
-              'card-hover cursor-pointer no-underline',
+              'module-card group relative rounded-2xl p-6 flex flex-col gap-5 border',
+              'card-hover no-underline',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
             )}
-            style={{
-              background: 'var(--card)',
-              borderColor: border,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = `0 8px 32px ${glow}, 0 0 0 1px ${border}`
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = ''
-            }}
+            style={
+              {
+                background: 'var(--card)',
+                borderColor: border,
+                '--card-glow': glow,
+                '--card-border': border,
+              } as React.CSSProperties
+            }
           >
             {/* Icon */}
             <div
@@ -122,8 +115,7 @@ export default function DashboardPage() {
               <span
                 className={cn(
                   buttonVariants({ variant: 'ghost', size: 'sm' }),
-                  'gap-1.5 px-0 font-medium transition-all duration-150',
-                  'group-hover:gap-2.5'
+                  'gap-1.5 px-0 font-medium transition-all duration-150 group-hover:gap-2.5'
                 )}
                 style={{ color }}
               >
@@ -131,13 +123,9 @@ export default function DashboardPage() {
                 <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-150 group-hover:-translate-x-0.5" />
               </span>
 
-              {/* Status badge */}
               <span
                 className="text-xs px-2 py-1 rounded-full font-medium"
-                style={{
-                  background: bg,
-                  color,
-                }}
+                style={{ background: bg, color }}
               >
                 חדש
               </span>
@@ -146,7 +134,6 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* Bottom hint */}
       <p className="text-muted-foreground text-xs text-center mt-12">
         כל הנתונים שלך מוגנים ומאובטחים ✦ LaunchPad
       </p>
