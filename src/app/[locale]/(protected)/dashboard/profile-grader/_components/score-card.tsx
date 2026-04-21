@@ -91,9 +91,7 @@ export function ScoreCard({ title, score, strengths, improvements, color }: Scor
           <ul className="space-y-1.5">
             {improvements.map((imp, i) => (
               <li key={i} className="flex items-start gap-2 text-sm">
-                <span className="mt-0.5 shrink-0 text-xs" style={{ color: 'oklch(0.75 0.16 60)' }}>
-                  →
-                </span>
+                <span className="mt-0.5 shrink-0 text-xs text-muted-foreground">→</span>
                 <span className="text-muted-foreground">{imp}</span>
               </li>
             ))}
