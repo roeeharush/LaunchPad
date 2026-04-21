@@ -1,0 +1,63 @@
+{
+  "nav": {
+    "dashboard": "לוח בקרה",
+    "resume": "ניתוח קורות חיים",
+    "profile": "דירוג פרופיל",
+    "trends": "טרנדים בתעשייה",
+    "jobs": "חיפוש עבודה",
+    "learn": "מרכז ידע"
+  },
+  "landing": {
+    "headline": "מפסיק לנחש, מתחיל לבלוט",
+    "subheadline": "הפלטפורמה שתעזור לך להתגלות לפני הסיום",
+    "cta": "התחל בחינם",
+    "features": {
+      "resume": "ניתוח קורות חיים עם AI",
+      "profile": "דירוג פרופיל LinkedIn ו-GitHub",
+      "trends": "טרנדים בזמן אמת",
+      "jobs": "עוזר חיפוש עבודה",
+      "learn": "מסלולי למידה"
+    }
+  },
+  "auth": {
+    "login": "התחברות",
+    "register": "הרשמה",
+    "email": "אימייל",
+    "password": "סיסמה",
+    "loginButton": "כניסה",
+    "registerButton": "יצירת חשבון",
+    "noAccount": "אין לך חשבון?",
+    "hasAccount": "כבר יש לך חשבון?"
+  },
+  "dashboard": {
+    "welcome": "ברוך הבא",
+    "resumeScore": "ציון קורות חיים",
+    "noAnalysis": "טרם נותחו קורות חיים",
+    "startNow": "התחל עכשיו"
+  },
+  "resume": {
+    "title": "ניתוח קורות חיים",
+    "upload": "העלה קורות חיים",
+    "dragDrop": "גרור ושחרר PDF או DOCX כאן",
+    "orClick": "או לחץ לבחירת קובץ",
+    "analyzing": "מנתח את הקורות חיים שלך...",
+    "score": "ציון",
+    "history": "ניתוחים קודמים",
+    "noHistory": "טרם בוצע ניתוח",
+    "dimensions": {
+      "structure": "מבנה וקריאות",
+      "keywords": "מילות מפתח ו-ATS",
+      "actionVerbs": "פעלי פעולה",
+      "achievements": "הישגים מדידים",
+      "clarity": "בהירות וקיצור"
+    },
+    "issues": "בעיות שזוהו",
+    "suggestions": "המלצות לשיפור",
+    "rewriteExample": "דוגמה לניסוח מחדש"
+  },
+  "errors": {
+    "uploadFailed": "ההעלאה נכשלה. נסה שוב.",
+    "analysisFailed": "הניתוח נכשל. נסה שוב.",
+    "invalidFile": "קובץ לא תקין. יש להעלות PDF או DOCX בלבד."
+  }
+}
