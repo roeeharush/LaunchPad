@@ -1,12 +1,21 @@
 import type { Metadata } from 'next'
-import { Heebo } from 'next/font/google'
+import { Rubik, Inter } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import '../globals.css'
 
-const heebo = Heebo({
+const rubik = Rubik({
   subsets: ['hebrew', 'latin'],
-  variable: '--font-heebo',
+  variable: '--font-rubik',
+  weight: ['300', '400', '500', '600', '700', '800'],
+  display: 'swap',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  weight: ['400', '500', '600'],
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -25,7 +34,7 @@ export default async function RootLayout({
   const messages = await getMessages()
 
   return (
-    <html lang={locale} dir="rtl" className={heebo.variable}>
+    <html lang={locale} dir="rtl" className={`${rubik.variable} ${inter.variable}`}>
       <body className="font-sans bg-background text-foreground antialiased">
         <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
       </body>
