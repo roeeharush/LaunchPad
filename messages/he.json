@@ -73,6 +73,23 @@
     "empty": "ממתין לניתוח",
     "emptyHint": "הזן שם משתמש GitHub והדבק טקסט מ-LinkedIn כדי לקבל את ה-Online Brand Score שלך"
   },
+  "knowledge": {
+    "title": "מרכז הידע",
+    "subtitle": "טרנדים יומיים · הכנה לראיונות · סימניות חכמות",
+    "pulse": "Daily Tech Pulse",
+    "pulseHint": "הזן שם משתמש GitHub לקבלת טרנדים מותאמים אישית",
+    "generate": "צור",
+    "generating": "מייצר...",
+    "interviewPrep": "הכנה לראיונות",
+    "interviewHint": "הזן נושא לקבלת 5 שאלות ראיון עם תשובות",
+    "bookmarks": "הסימניות שלי",
+    "noBookmarks": "אין סימניות עדיין",
+    "noBookmarksHint": "שמור תכנים מעניינים מהטרנדים ושאלות הראיון",
+    "saveBookmark": "שמור סימניה",
+    "deleteBookmark": "מחק סימניה",
+    "trendSource": "Tech Pulse",
+    "interviewSource": "ראיון"
+  },
   "errors": {
     "uploadFailed": "ההעלאה נכשלה. נסה שוב.",
     "analysisFailed": "הניתוח נכשל. נסה שוב.",

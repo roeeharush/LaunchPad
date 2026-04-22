@@ -33,7 +33,7 @@ const navItems: { href: string; icon: typeof LayoutDashboard; key: NavKey; color
   { href: '/dashboard/profile-grader', icon: User, key: 'profile', color: 'oklch(0.58 0.21 291)' },
   { href: '/trends', icon: TrendingUp, key: 'trends', color: 'oklch(0.60 0.17 162)' },
   { href: '/jobs', icon: Briefcase, key: 'jobs', color: 'oklch(0.75 0.16 60)' },
-  { href: '/learn', icon: BookOpen, key: 'learn', color: 'oklch(0.65 0.15 211)' },
+  { href: '/dashboard/knowledge-hub', icon: BookOpen, key: 'learn', color: 'oklch(0.65 0.15 211)' },
 ]
 
 export function Sidebar() {
