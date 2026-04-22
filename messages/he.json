@@ -90,6 +90,24 @@
     "trendSource": "Tech Pulse",
     "interviewSource": "ראיון"
   },
+  "jobs": {
+    "title": "מרכז חיפוש העבודה",
+    "subtitle": "משרות מותאמות לפרופיל שלך · סינון חכם · מעקב בקשות",
+    "discover": "גילוי משרות",
+    "discoverHint": "ה-AI ינתח את קורות החיים שלך ויציע משרות מתאימות",
+    "generate": "מצא משרות מתאימות",
+    "generating": "מחפש משרות...",
+    "filterRemote": "Remote בלבד",
+    "filterJunior": "Junior בלבד",
+    "addToTracker": "הוסף לטראקר",
+    "saved": "נשמר",
+    "tracker": "טראקר",
+    "noApplications": "טרם שמרת בקשות עבודה",
+    "statusApplied": "הגשתי",
+    "statusInterviewing": "ראיון",
+    "statusOffer": "הצעה",
+    "statusRejected": "נדחיתי"
+  },
   "errors": {
     "uploadFailed": "ההעלאה נכשלה. נסה שוב.",
     "analysisFailed": "הניתוח נכשל. נסה שוב.",
