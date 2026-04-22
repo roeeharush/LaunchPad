@@ -196,7 +196,7 @@ export function InterviewPrepPanel({ onBookmark }: InterviewPrepPanelProps) {
           <div className="flex items-center gap-2">
             <GraduationCap className="w-4 h-4" style={{ color: 'oklch(0.585 0.212 264.4)' }} />
             <p className="text-sm font-semibold">
-              5 שאלות ראיון על{' '}
+              {prepResult.questions.length} שאלות ראיון על{' '}
               <span style={{ color: 'oklch(0.585 0.212 264.4)' }}>{prepResult.topic}</span>
             </p>
           </div>

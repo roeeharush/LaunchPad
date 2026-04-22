@@ -91,17 +91,7 @@ export async function saveBookmarkAction(formData: FormData): Promise<BookmarkRe
     .single()
 
   if (error || !data) {
-    return {
-      ok: true,
-      bookmark: {
-        id: crypto.randomUUID(),
-        user_id: user.id,
-        title,
-        content,
-        source: source as 'trend' | 'interview',
-        created_at: new Date().toISOString(),
-      },
-    }
+    return { ok: false, error: 'שגיאה בשמירת הסימניה. נסה שוב.' }
   }
 
   return { ok: true, bookmark: data as KnowledgeBookmark }

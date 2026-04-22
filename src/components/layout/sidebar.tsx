@@ -71,7 +71,8 @@ export function Sidebar() {
       {/* Nav */}
       <nav className="flex-1 px-3 py-4 space-y-0.5">
         {navItems.map(({ href, icon: Icon, key, color }) => {
-          const isActive = pathname.includes(href)
+          const isActive =
+            href === '/dashboard' ? pathname.endsWith('/dashboard') : pathname.includes(href)
           return (
             <Link
               key={key}
