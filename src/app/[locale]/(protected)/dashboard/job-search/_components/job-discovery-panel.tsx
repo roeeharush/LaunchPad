@@ -37,9 +37,7 @@ function JobCard({
           className={cn(
             buttonVariants({ variant: 'ghost', size: 'sm' }),
             'shrink-0 px-2 gap-1 text-xs',
-            isSaved
-              ? 'text-emerald-400 cursor-default'
-              : 'text-muted-foreground hover:text-foreground'
+            isSaved ? 'cursor-default' : 'text-muted-foreground hover:text-foreground'
           )}
           title={isSaved ? 'נשמר לטראקר' : 'הוסף לטראקר'}
           aria-label={isSaved ? 'נשמר לטראקר' : 'הוסף לטראקר'}
@@ -114,10 +112,10 @@ function JobCard({
 
 export function JobDiscoveryPanel({ onApplicationSaved }: JobDiscoveryPanelProps) {
   const [isPending, startTransition] = useTransition()
-  const [isSaving, startSaveTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<JobSuggestionsResult | null>(null)
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set())
+  const [pendingIds, setPendingIds] = useState<Set<string>>(new Set())
   const [filterRemote, setFilterRemote] = useState(false)
   const [filterJunior, setFilterJunior] = useState(false)
   const [filterTechs, setFilterTechs] = useState<Set<string>>(new Set())
@@ -149,6 +147,7 @@ export function JobDiscoveryPanel({ onApplicationSaved }: JobDiscoveryPanelProps
         setFilterJunior(false)
         setFilterTechs(new Set())
         setSavedIds(new Set())
+        setPendingIds(new Set())
       } else {
         setError(res.error)
       }
@@ -165,15 +164,21 @@ export function JobDiscoveryPanel({ onApplicationSaved }: JobDiscoveryPanelProps
   }
 
   function handleSave(job: JobSuggestion) {
-    if (savedIds.has(job.id)) return
+    if (savedIds.has(job.id) || pendingIds.has(job.id)) return
+    setPendingIds((prev) => new Set([...prev, job.id]))
     const formData = new FormData()
     formData.set('job_title', job.title)
     formData.set('company', job.company)
     formData.set('location', job.location)
     formData.set('is_remote', String(job.isRemote))
     formData.set('tech_stack', JSON.stringify(job.techStack))
-    startSaveTransition(async () => {
+    startTransition(async () => {
       const res = await saveApplicationAction(formData)
+      setPendingIds((prev) => {
+        const next = new Set(prev)
+        next.delete(job.id)
+        return next
+      })
       if (res.ok) {
         setSavedIds((prev) => new Set([...prev, job.id]))
         onApplicationSaved(res.application)
@@ -230,10 +235,14 @@ export function JobDiscoveryPanel({ onApplicationSaved }: JobDiscoveryPanelProps
               className={cn(
                 'flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border transition-all duration-150 font-medium',
                 filterRemote
-                  ? 'border-sky-400/50 text-sky-400'
+                  ? 'border-sky-400/50'
                   : 'border-border text-muted-foreground hover:text-foreground'
               )}
-              style={filterRemote ? { background: 'oklch(0.65 0.15 211 / 15%)' } : {}}
+              style={
+                filterRemote
+                  ? { background: 'oklch(0.65 0.15 211 / 15%)', color: 'oklch(0.65 0.15 211)' }
+                  : {}
+              }
             >
               <Wifi className="w-3 h-3" />
               Remote בלבד
@@ -243,10 +252,14 @@ export function JobDiscoveryPanel({ onApplicationSaved }: JobDiscoveryPanelProps
               className={cn(
                 'flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border transition-all duration-150 font-medium',
                 filterJunior
-                  ? 'border-emerald-400/50 text-emerald-400'
+                  ? 'border-emerald-400/50'
                   : 'border-border text-muted-foreground hover:text-foreground'
               )}
-              style={filterJunior ? { background: 'oklch(0.60 0.17 162 / 15%)' } : {}}
+              style={
+                filterJunior
+                  ? { background: 'oklch(0.60 0.17 162 / 15%)', color: 'oklch(0.60 0.17 162)' }
+                  : {}
+              }
             >
               Junior בלבד
             </button>
@@ -290,7 +303,7 @@ export function JobDiscoveryPanel({ onApplicationSaved }: JobDiscoveryPanelProps
               key={job.id}
               job={job}
               onSave={handleSave}
-              isSaved={savedIds.has(job.id) || isSaving}
+              isSaved={savedIds.has(job.id) || pendingIds.has(job.id)}
             />
           ))}
         </div>

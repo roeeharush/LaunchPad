@@ -63,7 +63,12 @@ export async function saveApplicationAction(formData: FormData): Promise<SaveApp
   const location = ((formData.get('location') as string | null) ?? '').trim() || null
   const is_remote = formData.get('is_remote') === 'true'
   const tech_stack_raw = (formData.get('tech_stack') as string | null) ?? '[]'
-  const tech_stack: string[] = JSON.parse(tech_stack_raw)
+  let tech_stack: string[] = []
+  try {
+    tech_stack = JSON.parse(tech_stack_raw)
+  } catch {
+    tech_stack = []
+  }
 
   if (!job_title || !company) return { ok: false, error: 'כותרת ותפקיד נדרשים' }
 
