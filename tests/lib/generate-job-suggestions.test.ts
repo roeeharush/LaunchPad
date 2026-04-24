@@ -34,9 +34,9 @@ describe('parseJobSuggestions', () => {
     const result = parseJobSuggestions(JSON.stringify(validRaw))
     expect(result.basedOn).toBe('React, TypeScript, Node.js')
     expect(result.jobs).toHaveLength(2)
-    expect(result.jobs[0].id).toBe('j0')
-    expect(result.jobs[1].id).toBe('j1')
-    expect(result.jobs[0].isJuniorFriendly).toBe(true)
+    expect(result.jobs[0]!.id).toBe('j0')
+    expect(result.jobs[1]!.id).toBe('j1')
+    expect(result.jobs[0]!.isJuniorFriendly).toBe(true)
   })
 
   it('strips markdown code fences before parsing', () => {

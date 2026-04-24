@@ -32,7 +32,7 @@ describe('parseJobAnalysis', () => {
   it('strips markdown code fences before parsing', () => {
     const raw = '```json\n' + JSON.stringify(validResult) + '\n```'
     const result = parseJobAnalysis(raw)
-    expect(result.criticalSkills[0].skill).toBe('React')
+    expect(result.criticalSkills[0]!.skill).toBe('React')
   })
 
   it('throws on invalid JSON', () => {

@@ -21,7 +21,7 @@ describe('parseTechPulse', () => {
     expect(result.username).toBe('roeeharush')
     expect(result.topLanguages).toHaveLength(2)
     expect(result.trends).toHaveLength(1)
-    expect(result.trends[0].tag).toBe('AI/ML')
+    expect(result.trends[0]!.tag).toBe('AI/ML')
   })
 
   it('strips markdown code fences before parsing', () => {

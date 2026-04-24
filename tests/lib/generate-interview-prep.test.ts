@@ -22,7 +22,7 @@ describe('parseInterviewPrep', () => {
     const result = parseInterviewPrep(JSON.stringify(validResult))
     expect(result.topic).toBe('React Hooks')
     expect(result.questions).toHaveLength(2)
-    expect(result.questions[0].difficulty).toBe('medium')
+    expect(result.questions[0]!.difficulty).toBe('medium')
   })
 
   it('strips markdown code fences before parsing', () => {

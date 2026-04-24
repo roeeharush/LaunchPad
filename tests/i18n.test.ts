@@ -8,8 +8,8 @@ describe('Hebrew messages', () => {
   })
 
   it('has landing translations', () => {
-    expect(messages.landing.headline).toBe('מפסיק לנחש, מתחיל לבלוט')
-    expect(messages.landing.cta).toBe('התחל בחינם')
+    expect(messages.landing.hero.headline).toBe('העבודה הראשונה שלך בהייטק מתחילה כאן.')
+    expect(messages.landing.nav.signup).toBe('התחל חינם')
   })
 
   it('has resume dimensions', () => {
