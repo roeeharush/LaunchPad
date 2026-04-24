@@ -20,6 +20,7 @@ export function parseJobAnalysis(raw: string): JobAnalysisResult {
     throw new Error('תשובת ה-AI אינה JSON תקני')
   }
 
+  const p = parsed as Record<string, unknown>
   if (
     typeof parsed !== 'object' ||
     parsed === null ||
@@ -27,7 +28,9 @@ export function parseJobAnalysis(raw: string): JobAnalysisResult {
     !('coverLetterHe' in parsed) ||
     !('coverLetterEn' in parsed) ||
     !('criticalSkills' in parsed) ||
-    !('interviewQuestions' in parsed)
+    !('interviewQuestions' in parsed) ||
+    !Array.isArray(p.criticalSkills) ||
+    !Array.isArray(p.interviewQuestions)
   ) {
     throw new Error('מבנה תשובת ה-AI שגוי — חסרים שדות נדרשים')
   }
