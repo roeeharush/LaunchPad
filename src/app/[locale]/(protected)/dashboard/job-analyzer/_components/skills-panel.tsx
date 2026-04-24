@@ -1,5 +1,3 @@
-'use client'
-
 import { Target } from 'lucide-react'
 import type { CriticalSkill } from '@/types/job-analyzer'
 
