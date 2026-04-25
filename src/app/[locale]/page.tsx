@@ -108,9 +108,9 @@ const PLAN_FEATURES: Record<PlanKey, Record<PricingFeatureKey, boolean | string>
 }
 
 const AVATAR_GRADIENTS = [
-  'from-indigo-500 to-purple-600',
-  'from-blue-500 to-cyan-500',
-  'from-violet-500 to-pink-500',
+  'linear-gradient(135deg, oklch(0.56 0.24 264), oklch(0.48 0.20 291))',
+  'linear-gradient(135deg, oklch(0.56 0.22 234), oklch(0.72 0.20 195))',
+  'linear-gradient(135deg, oklch(0.52 0.25 291), oklch(0.65 0.28 0))',
 ] as const
 
 // Brand gradient style — shared across headings
@@ -181,18 +181,22 @@ function FeatureCell({ value }: { value: boolean | string }) {
   if (value === false) {
     return (
       <div className="flex justify-center">
-        <X className="w-4 h-4 text-gray-600" />
+        <X className="w-4 h-4" style={{ color: 'oklch(0.50 0.01 264)' }} />
       </div>
     )
   }
   if (value === true) {
     return (
       <div className="flex justify-center">
-        <Check className="w-4 h-4 text-emerald-400" />
+        <Check className="w-4 h-4" style={{ color: 'oklch(0.60 0.17 162)' }} />
       </div>
     )
   }
-  return <div className="text-center text-xs text-gray-400">{value}</div>
+  return (
+    <div className="text-center text-xs" style={{ color: 'oklch(0.65 0.01 264)' }}>
+      {value}
+    </div>
+  )
 }
 
 // ── Main component ─────────────────────────────────────────────────────────────
@@ -228,7 +232,10 @@ export default function LandingPage() {
     learn: t('features.learn.description'),
   }
 
-  const planTx: Record<PlanKey, { name: string; price: string; period: string; description: string; cta: string }> = {
+  const planTx: Record<
+    PlanKey,
+    { name: string; price: string; period: string; description: string; cta: string }
+  > = {
     free: {
       name: t('pricing.plans.free.name'),
       price: t('pricing.plans.free.price'),
@@ -273,7 +280,6 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen overflow-x-hidden" style={{ background: 'oklch(0.08 0.018 264)' }}>
-
       {/* ── Ambient background blobs ────────────────────────────────────────── */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden>
         <div
@@ -304,11 +310,7 @@ export default function LandingPage() {
         className={`sticky top-0 z-50 transition-all duration-300 ${
           scrolled ? 'border-b border-white/5' : ''
         }`}
-        style={
-          scrolled
-            ? { background: 'rgba(8,6,20,0.88)', backdropFilter: 'blur(16px)' }
-            : {}
-        }
+        style={scrolled ? { background: 'rgba(8,6,20,0.88)', backdropFilter: 'blur(16px)' } : {}}
       >
         <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
           {/* Logo — first child appears on RIGHT in RTL */}
@@ -468,15 +470,19 @@ export default function LandingPage() {
             {AVATAR_GRADIENTS.map((g, i) => (
               <div
                 key={i}
-                className={`w-7 h-7 rounded-full bg-gradient-to-br ${g} border-2`}
-                style={{ borderColor: 'oklch(0.08 0.018 264)' }}
+                className="w-7 h-7 rounded-full border-2"
+                style={{ background: g, borderColor: 'oklch(0.08 0.018 264)' }}
               />
             ))}
           </div>
           {/* Stars */}
           <div className="flex items-center gap-0.5">
             {Array.from({ length: 5 }).map((_, i) => (
-              <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+              <Star
+                key={i}
+                className="w-3 h-3"
+                style={{ fill: 'oklch(0.85 0.18 86)', color: 'oklch(0.85 0.18 86)' }}
+              />
             ))}
           </div>
           <span>{t('hero.trust')}</span>
@@ -504,7 +510,9 @@ export default function LandingPage() {
                     <Icon className="w-5 h-5 text-white" />
                   </div>
                   <h3 className="font-bold text-base mb-2 text-white">{featureTitles[key]}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">{featureDescriptions[key]}</p>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    {featureDescriptions[key]}
+                  </p>
                 </div>
               </FadeUp>
             )
@@ -591,7 +599,11 @@ export default function LandingPage() {
               <div className="h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-white/20 transition-all duration-300 flex flex-col">
                 <div className="flex items-center gap-0.5 mb-4">
                   {Array.from({ length: 5 }).map((_, j) => (
-                    <Star key={j} className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                    <Star
+                      key={j}
+                      className="w-3.5 h-3.5"
+                      style={{ fill: 'oklch(0.85 0.18 86)', color: 'oklch(0.85 0.18 86)' }}
+                    />
                   ))}
                 </div>
                 <p className="text-gray-300 text-sm leading-relaxed flex-1 mb-5">
@@ -771,7 +783,6 @@ export default function LandingPage() {
           <p className="text-xs text-gray-600">{t('footer.copyright')}</p>
         </div>
       </footer>
-
     </div>
   )
 }
