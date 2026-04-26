@@ -77,7 +77,7 @@ Existing spinners on the main action buttons remain as-is (they convey "working"
 
 ### Configuration
 
-- `color`: brand amber `oklch(0.75 0.16 60)` — hex approximation `#c9a73c` for the prop
+- `color`: brand indigo `oklch(0.585 0.212 264.4)` — hex approximation `#6366f1` for the prop
 - `height`: `2` (2px — slim and unobtrusive)
 - `showSpinner`: `false` (spinner-in-corner would conflict with button spinners)
 - `shadow`: `false` (avoids visual noise on the dark background)
