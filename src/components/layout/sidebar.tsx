@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   FileText,
-  User,
+  GitBranch,
+  Link2,
   TrendingUp,
   Briefcase,
   BookOpen,
@@ -16,7 +17,15 @@ import {
 import { cn } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
 
-type NavKey = 'dashboard' | 'resume' | 'profile' | 'trends' | 'jobs' | 'learn' | 'analyzer'
+type NavKey =
+  | 'dashboard'
+  | 'resume'
+  | 'githubGrader'
+  | 'linkedinGrader'
+  | 'trends'
+  | 'jobs'
+  | 'learn'
+  | 'analyzer'
 
 const navItems: { href: string; icon: typeof LayoutDashboard; key: NavKey; color: string }[] = [
   {
@@ -31,16 +40,27 @@ const navItems: { href: string; icon: typeof LayoutDashboard; key: NavKey; color
     key: 'resume',
     color: 'oklch(0.585 0.212 264.4)',
   },
-  { href: '/dashboard/profile-grader', icon: User, key: 'profile', color: 'oklch(0.58 0.21 291)' },
-  { href: '/trends', icon: TrendingUp, key: 'trends', color: 'oklch(0.60 0.17 162)' },
-  { href: '/dashboard/job-search', icon: Briefcase, key: 'jobs', color: 'oklch(0.75 0.16 60)' },
-  { href: '/dashboard/knowledge-hub', icon: BookOpen, key: 'learn', color: 'oklch(0.65 0.15 211)' },
   {
-    href: '/dashboard/job-analyzer',
-    icon: Wand2,
-    key: 'analyzer' as NavKey,
+    href: '/dashboard/github-grader',
+    icon: GitBranch,
+    key: 'githubGrader',
     color: 'oklch(0.58 0.21 291)',
   },
+  {
+    href: '/dashboard/linkedin-grader',
+    icon: Link2,
+    key: 'linkedinGrader',
+    color: 'oklch(0.58 0.21 291)',
+  },
+  {
+    href: '/dashboard/knowledge-hub',
+    icon: TrendingUp,
+    key: 'trends',
+    color: 'oklch(0.60 0.17 162)',
+  },
+  { href: '/dashboard/job-search', icon: Briefcase, key: 'jobs', color: 'oklch(0.75 0.16 60)' },
+  { href: '/dashboard/knowledge-hub', icon: BookOpen, key: 'learn', color: 'oklch(0.65 0.15 211)' },
+  { href: '/dashboard/job-analyzer', icon: Wand2, key: 'analyzer', color: 'oklch(0.58 0.21 291)' },
 ]
 
 export function Sidebar() {

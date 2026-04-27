@@ -20,12 +20,49 @@ vi.mock('@/lib/supabase/client', () => ({
 import { Sidebar } from '@/components/layout/sidebar'
 
 describe('Sidebar', () => {
-  it('renders all 6 nav items as links', () => {
+  it('renders all nav items as links', () => {
     render(<Sidebar />)
-    const keys = ['dashboard', 'resume', 'profile', 'trends', 'jobs', 'learn']
+    const keys = [
+      'dashboard',
+      'resume',
+      'githubGrader',
+      'linkedinGrader',
+      'trends',
+      'jobs',
+      'learn',
+      'analyzer',
+    ]
     for (const key of keys) {
       expect(screen.getByRole('link', { name: new RegExp(key) })).toBeInTheDocument()
     }
+  })
+
+  it('does not render old combined profile link', () => {
+    render(<Sidebar />)
+    const links = screen.getAllByRole('link')
+    const hrefs = links.map((l) => l.getAttribute('href'))
+    expect(hrefs).not.toContain('/dashboard/profile-grader')
+    expect(hrefs).not.toContain('/trends')
+  })
+
+  it('renders github-grader and linkedin-grader links with correct hrefs', () => {
+    render(<Sidebar />)
+    expect(screen.getByRole('link', { name: /githubGrader/ })).toHaveAttribute(
+      'href',
+      '/dashboard/github-grader'
+    )
+    expect(screen.getByRole('link', { name: /linkedinGrader/ })).toHaveAttribute(
+      'href',
+      '/dashboard/linkedin-grader'
+    )
+  })
+
+  it('trends link points to knowledge-hub', () => {
+    render(<Sidebar />)
+    expect(screen.getByRole('link', { name: /trends/ })).toHaveAttribute(
+      'href',
+      '/dashboard/knowledge-hub'
+    )
   })
 
   it('renders the logout button', () => {

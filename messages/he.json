@@ -6,7 +6,9 @@
     "trends": "טרנדים בתעשייה",
     "jobs": "חיפוש עבודה",
     "learn": "מרכז ידע",
-    "analyzer": "מנתח משרות"
+    "analyzer": "מנתח משרות",
+    "githubGrader": "GitHub Grader",
+    "linkedinGrader": "LinkedIn Grader"
   },
   "landing": {
     "nav": {
@@ -198,6 +200,28 @@
     "empty": "ממתין לניתוח",
     "emptyHint": "הזן שם משתמש GitHub והדבק טקסט מ-LinkedIn כדי לקבל את ה-Online Brand Score שלך"
   },
+  "githubGrader": {
+    "title": "GitHub Grader",
+    "subtitle": "ניתוח ריפוזיטוריז, שפות וחוזק טכני",
+    "breadcrumb": "ניתוח GitHub",
+    "analyze": "נתח GitHub",
+    "analyzing": "מנתח...",
+    "scoreLabel": "Tech Score",
+    "history": "ניתוחים קודמים",
+    "empty": "ממתין לניתוח",
+    "emptyHint": "הזן שם משתמש GitHub לקבלת ניתוח טכני מעמיק"
+  },
+  "linkedinGrader": {
+    "title": "LinkedIn Grader",
+    "subtitle": "ניתוח פרופיל מקצועי ואופטימיזציה למגייסים",
+    "breadcrumb": "ניתוח LinkedIn",
+    "analyze": "נתח LinkedIn",
+    "analyzing": "מנתח...",
+    "scoreLabel": "Professional Score",
+    "history": "ניתוחים קודמים",
+    "empty": "ממתין לניתוח",
+    "emptyHint": "הדבק טקסט מפרופיל ה-LinkedIn שלך לקבלת ניתוח מקצועי"
+  },
   "knowledge": {
     "title": "מרכז הידע",
     "subtitle": "טרנדים יומיים · הכנה לראיונות · סימניות חכמות",
@@ -213,7 +237,13 @@
     "saveBookmark": "שמור סימניה",
     "deleteBookmark": "מחק סימניה",
     "trendSource": "Tech Pulse",
-    "interviewSource": "ראיון"
+    "interviewSource": "ראיון",
+    "pulseDesc": "טרנדים מותאמים לשפות ה-GitHub שלך",
+    "pulseTooltip": "מנתח את שפות ה-GitHub שלך ומייצר 5 טרנדים יומיים רלוונטיים",
+    "interviewDesc": "שאלות ותשובות לכל נושא טכני",
+    "interviewTooltip": "הזן נושא (React, SQL, System Design...) וקבל 5 שאלות ראיון עם תשובות מפורטות",
+    "bookmarksDesc": "תכנים ששמרת לחזרה עתידית",
+    "bookmarksTooltip": "שמור טרנדים ושאלות מהכלים האחרים — ניתן לעיין בהם בכל עת"
   },
   "jobs": {
     "title": "מרכז חיפוש העבודה",
@@ -231,7 +261,15 @@
     "statusApplied": "הגשתי",
     "statusInterviewing": "ראיון",
     "statusOffer": "הצעה",
-    "statusRejected": "נדחיתי"
+    "statusRejected": "נדחיתי",
+    "step1Title": "העלה קורות חיים",
+    "step1Desc": "ה-AI צריך לנתח את הפרופיל שלך לפני שיוכל למצוא משרות מתאימות",
+    "step1Done": "קורות חיים מנותחים",
+    "step2Title": "מצא משרות מתאימות",
+    "step2Desc": "ה-AI יציע 10 משרות רלוונטיות בהייטק הישראלי",
+    "noResume": "קורות חיים לא נמצאו",
+    "noResumeDesc": "כדי שנוכל למצוא משרות מתאימות, נצטרך לנתח את קורות החיים שלך תחילה",
+    "uploadNow": "העלה קורות חיים עכשיו"
   },
   "errors": {
     "uploadFailed": "ההעלאה נכשלה. נסה שוב.",

@@ -23,6 +23,16 @@ export interface ProfileSubScore {
   improvements: string[]
 }
 
+export interface GitHubAnalysis {
+  techScore: ProfileSubScore
+  topTips: string[]
+}
+
+export interface LinkedInAnalysis {
+  professionalScore: ProfileSubScore
+  topTips: string[]
+}
+
 export interface ProfileAnalysis {
   techScore: ProfileSubScore
   professionalScore: ProfileSubScore
@@ -35,6 +45,6 @@ export interface ProfileAnalysisRecord {
   user_id: string
   type: 'linkedin' | 'github' | 'combined'
   input_text: string | null
-  result_json: ProfileAnalysis | null
+  result_json: ProfileAnalysis | GitHubAnalysis | LinkedInAnalysis | null
   created_at: string
 }

@@ -5,6 +5,8 @@ import type {
   ProfileSubScore,
   ProfileAnalysis,
   ProfileAnalysisRecord,
+  GitHubAnalysis,
+  LinkedInAnalysis,
 } from '@/types/profile'
 
 describe('profile types', () => {
@@ -62,5 +64,43 @@ describe('profile types', () => {
     }
     expect(profile.login).toBe('john-doe')
     expect(profile.topLanguages).toHaveProperty('TypeScript')
+  })
+
+  it('GitHubAnalysis has techScore and topTips', () => {
+    const a: GitHubAnalysis = {
+      techScore: { score: 80, strengths: ['good repos'], improvements: ['add READMEs'] },
+      topTips: ['pin 3 projects'],
+    }
+    expect(a.techScore.score).toBe(80)
+    expect(a.topTips).toHaveLength(1)
+  })
+
+  it('LinkedInAnalysis has professionalScore and topTips', () => {
+    const a: LinkedInAnalysis = {
+      professionalScore: {
+        score: 70,
+        strengths: ['clear experience'],
+        improvements: ['add keywords'],
+      },
+      topTips: ['update headline'],
+    }
+    expect(a.professionalScore.score).toBe(70)
+    expect(a.topTips).toHaveLength(1)
+  })
+
+  it('ProfileAnalysisRecord.result_json accepts GitHubAnalysis', () => {
+    const gh: GitHubAnalysis = {
+      techScore: { score: 75, strengths: [], improvements: [] },
+      topTips: [],
+    }
+    const record: ProfileAnalysisRecord = {
+      id: 'x',
+      user_id: 'u',
+      type: 'github',
+      input_text: '{}',
+      result_json: gh,
+      created_at: new Date().toISOString(),
+    }
+    expect(record.type).toBe('github')
   })
 })
