@@ -14,4 +14,15 @@ describe('Skeleton', () => {
     const { container } = render(<Skeleton className="h-4 w-full" />)
     expect(container.firstChild).toHaveClass('h-4', 'w-full', 'animate-pulse')
   })
+
+  it('includes data-slot="skeleton"', () => {
+    const { container } = render(<Skeleton />)
+    expect(container.firstChild).toHaveAttribute('data-slot', 'skeleton')
+  })
+
+  it('forwards arbitrary HTML props to the div', () => {
+    const { container } = render(<Skeleton aria-label="loading" id="sk-1" />)
+    expect(container.firstChild).toHaveAttribute('aria-label', 'loading')
+    expect(container.firstChild).toHaveAttribute('id', 'sk-1')
+  })
 })
