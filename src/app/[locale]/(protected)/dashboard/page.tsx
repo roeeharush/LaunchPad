@@ -1,12 +1,21 @@
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
-import { FileText, User, TrendingUp, Briefcase, BookOpen, ArrowLeft, Sparkles } from 'lucide-react'
+import {
+  FileText,
+  GitBranch,
+  Link2,
+  TrendingUp,
+  Briefcase,
+  Wand2,
+  ArrowLeft,
+  Sparkles,
+} from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 const modules = [
   {
-    href: '/resume',
+    href: '/dashboard/resume-analyzer',
     icon: FileText,
     titleKey: 'resume',
     color: 'oklch(0.585 0.212 264.4)',
@@ -15,16 +24,25 @@ const modules = [
     glow: 'oklch(0.585 0.212 264.4 / 30%)',
   },
   {
-    href: '/profile',
-    icon: User,
-    titleKey: 'profile',
+    href: '/dashboard/github-grader',
+    icon: GitBranch,
+    titleKey: 'githubGrader',
     color: 'oklch(0.58 0.21 291)',
     bg: 'oklch(0.58 0.21 291 / 12%)',
     border: 'oklch(0.58 0.21 291 / 25%)',
     glow: 'oklch(0.58 0.21 291 / 30%)',
   },
   {
-    href: '/trends',
+    href: '/dashboard/linkedin-grader',
+    icon: Link2,
+    titleKey: 'linkedinGrader',
+    color: 'oklch(0.58 0.21 291)',
+    bg: 'oklch(0.58 0.21 291 / 12%)',
+    border: 'oklch(0.58 0.21 291 / 25%)',
+    glow: 'oklch(0.58 0.21 291 / 30%)',
+  },
+  {
+    href: '/dashboard/knowledge-hub',
     icon: TrendingUp,
     titleKey: 'trends',
     color: 'oklch(0.60 0.17 162)',
@@ -33,7 +51,7 @@ const modules = [
     glow: 'oklch(0.60 0.17 162 / 30%)',
   },
   {
-    href: '/jobs',
+    href: '/dashboard/job-search',
     icon: Briefcase,
     titleKey: 'jobs',
     color: 'oklch(0.75 0.16 60)',
@@ -42,13 +60,13 @@ const modules = [
     glow: 'oklch(0.75 0.16 60 / 30%)',
   },
   {
-    href: '/learn',
-    icon: BookOpen,
-    titleKey: 'learn',
-    color: 'oklch(0.65 0.15 211)',
-    bg: 'oklch(0.65 0.15 211 / 12%)',
-    border: 'oklch(0.65 0.15 211 / 25%)',
-    glow: 'oklch(0.65 0.15 211 / 30%)',
+    href: '/dashboard/job-analyzer',
+    icon: Wand2,
+    titleKey: 'analyzer',
+    color: 'oklch(0.58 0.21 291)',
+    bg: 'oklch(0.58 0.21 291 / 12%)',
+    border: 'oklch(0.58 0.21 291 / 25%)',
+    glow: 'oklch(0.58 0.21 291 / 30%)',
   },
 ] as const
 
