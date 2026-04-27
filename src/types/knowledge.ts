@@ -31,3 +31,12 @@ export interface KnowledgeBookmark {
   source: 'trend' | 'interview'
   created_at: string
 }
+
+export interface KnowledgeArticle {
+  id: string
+  category: string
+  title: string
+  readTime: string
+  excerpt: string
+  content: string
+}

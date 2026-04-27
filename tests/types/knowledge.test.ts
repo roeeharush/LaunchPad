@@ -5,6 +5,7 @@ import type {
   InterviewQA,
   InterviewPrepResult,
   KnowledgeBookmark,
+  KnowledgeArticle,
 } from '@/types/knowledge'
 
 describe('knowledge types', () => {
@@ -57,5 +58,18 @@ describe('knowledge types', () => {
       created_at: new Date().toISOString(),
     }
     expect(bookmark.source).toBe('trend')
+  })
+
+  it('KnowledgeArticle has all required fields', () => {
+    const article: KnowledgeArticle = {
+      id: 'hr-interview-tips',
+      category: 'ראיונות',
+      title: 'איך לעבור ראיון HR בהצלחה',
+      readTime: '4',
+      excerpt: 'ראיון HR הוא השלב הראשון.',
+      content: 'פסקה ראשונה.\n\nפסקה שנייה.',
+    }
+    expect(article.id).toBe('hr-interview-tips')
+    expect(article.readTime).toBe('4')
   })
 })
