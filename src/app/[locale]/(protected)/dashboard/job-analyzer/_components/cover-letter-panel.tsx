@@ -72,6 +72,11 @@ export function CoverLetterPanel({ coverLetterHe, coverLetterEn }: CoverLetterPa
         </button>
       </div>
 
+      {/* Hebrew default badge */}
+      <p className="text-xs text-muted-foreground">
+        ברירת מחדל: עברית | האנגלית זמינה דרך הכפתור למעלה
+      </p>
+
       {/* Letter body */}
       <div
         className="rounded-2xl border p-6 text-sm leading-relaxed whitespace-pre-wrap"
