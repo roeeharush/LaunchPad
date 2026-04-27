@@ -2,6 +2,7 @@ import { Briefcase } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { JobSearchClient } from './_components/job-search-client'
 import type { JobApplication } from '@/types/jobs'
+import type { ResumeRecord } from '@/types/resume'
 
 export default async function JobSearchPage() {
   const supabase = await createClient()
@@ -10,15 +11,41 @@ export default async function JobSearchPage() {
   } = await supabase.auth.getUser()
 
   let initialApplications: JobApplication[] = []
-  if (user) {
-    const { data } = await supabase
-      .from('job_applications')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
-      .limit(100)
+  let resumeInfo: { hasResume: boolean; score: number | null; skills: string[] } = {
+    hasResume: false,
+    score: null,
+    skills: [],
+  }
 
-    initialApplications = (data ?? []) as JobApplication[]
+  if (user) {
+    const [applicationsRes, resumesRes] = await Promise.all([
+      supabase
+        .from('job_applications')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(100),
+      supabase
+        .from('resumes')
+        .select('id, score, analysis_json')
+        .eq('user_id', user.id)
+        .not('analysis_json', 'is', null)
+        .order('created_at', { ascending: false })
+        .limit(1),
+    ])
+
+    initialApplications = (applicationsRes.data ?? []) as JobApplication[]
+
+    const latestResume = (resumesRes.data ?? [])[0] as
+      | Pick<ResumeRecord, 'score' | 'analysis_json'>
+      | undefined
+    if (latestResume) {
+      resumeInfo = {
+        hasResume: true,
+        score: latestResume.score,
+        skills: latestResume.analysis_json?.strengths ?? [],
+      }
+    }
   }
 
   return (
@@ -39,7 +66,7 @@ export default async function JobSearchPage() {
         </p>
       </div>
 
-      <JobSearchClient initialApplications={initialApplications} />
+      <JobSearchClient initialApplications={initialApplications} resumeInfo={resumeInfo} />
     </div>
   )
 }
