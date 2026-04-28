@@ -7,11 +7,7 @@ import { cn } from '@/lib/utils'
 import type { KnowledgeArticle } from '@/types/knowledge'
 import { getCategoryColor } from '../_components/category-colors'
 
-export async function generateStaticParams() {
-  const t = await getTranslations('knowledge')
-  const items = t.raw('articles.items') as KnowledgeArticle[]
-  return items.map((a) => ({ id: a.id }))
-}
+export const dynamic = 'force-dynamic'
 
 export function renderParagraph(chunk: string, color: string, index: number) {
   const trimmed = chunk.trimStart()
