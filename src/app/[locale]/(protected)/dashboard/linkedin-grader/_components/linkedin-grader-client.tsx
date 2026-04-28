@@ -12,6 +12,12 @@ import type { ProfileAnalysisRecord, LinkedInAnalysis } from '@/types/profile'
 
 const ACCENT = 'oklch(0.65 0.15 211)'
 
+const GUIDE_STEPS = [
+  'כנסו לפרופיל שלכם ולחצו על כפתור ה-More.',
+  'בחרו ב-Save to PDF (זה שומר את כל הניסיון שלכם בקובץ אחד).',
+  'העתיקו את הטקסט מהקובץ והדביקו כאן.',
+]
+
 interface LinkedInGraderClientProps {
   initialRecords: ProfileAnalysisRecord[]
 }
@@ -39,6 +45,7 @@ export function LinkedInGraderClient({ initialRecords }: LinkedInGraderClientPro
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
   const [linkedinText, setLinkedinText] = useState('')
+  const [guideOpen, setGuideOpen] = useState(false)
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -70,10 +77,57 @@ export function LinkedInGraderClient({ initialRecords }: LinkedInGraderClientPro
         >
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm font-medium" htmlFor="linkedinText">
-                <Link2 className="w-4 h-4" style={{ color: ACCENT }} />
-                טקסט LinkedIn
-              </label>
+              <div className="flex items-center justify-between gap-2">
+                <label
+                  className="flex items-center gap-2 text-sm font-medium"
+                  htmlFor="linkedinText"
+                >
+                  <Link2 className="w-4 h-4" style={{ color: ACCENT }} />
+                  טקסט LinkedIn
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setGuideOpen((o) => !o)}
+                  className="text-xs font-medium transition-opacity duration-150 opacity-70 hover:opacity-100"
+                  style={{ color: ACCENT }}
+                >
+                  {guideOpen ? '✕ סגור' : 'איך להעתיק את הפרופיל ב-10 שניות? ⚡'}
+                </button>
+              </div>
+
+              {guideOpen && (
+                <div
+                  className="rounded-xl p-4 space-y-3"
+                  style={{
+                    background: ACCENT.replace(')', ' / 8%)'),
+                    border: `1px solid ${ACCENT.replace(')', ' / 22%)')}`,
+                  }}
+                >
+                  <p className="text-xs font-semibold" style={{ color: ACCENT }}>
+                    3 שלבים פשוטים:
+                  </p>
+                  {GUIDE_STEPS.map((step, i) => (
+                    <div key={i} className="flex items-start gap-2.5">
+                      <span
+                        className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5"
+                        style={{
+                          background: ACCENT.replace(')', ' / 22%)'),
+                          color: ACCENT,
+                        }}
+                      >
+                        {i + 1}
+                      </span>
+                      <p
+                        className="text-xs leading-relaxed"
+                        style={{ color: 'oklch(0.82 0.01 252)' }}
+                      >
+                        {step}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <p className="text-xs text-muted-foreground">
                 העתק והדבק את קטע ה-About ו/או ה-Experience מפרופיל ה-LinkedIn שלך
               </p>
