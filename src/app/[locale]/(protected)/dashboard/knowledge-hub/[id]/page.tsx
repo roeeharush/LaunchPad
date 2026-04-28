@@ -20,12 +20,12 @@ export function renderParagraph(chunk: string, color: string, index: number) {
       <p
         key={index}
         dir="rtl"
-        className="text-sm leading-relaxed font-medium pr-4"
+        className="text-lg leading-relaxed font-medium pr-5"
         style={{
-          borderRightWidth: '2px',
+          borderRightWidth: '3px',
           borderRightStyle: 'solid',
           borderRightColor: color.replace(')', ' / 50%)'),
-          color: 'oklch(0.85 0.01 252)',
+          color: 'oklch(0.88 0.01 252)',
         }}
       >
         {chunk}
@@ -35,17 +35,19 @@ export function renderParagraph(chunk: string, color: string, index: number) {
 
   if (isDash) {
     return (
-      <p key={index} dir="rtl" className="text-sm text-muted-foreground leading-relaxed pr-4">
-        <span className="font-bold ml-1" style={{ color }}>
+      <div key={index} dir="rtl" className="flex items-start gap-2.5">
+        <span className="text-lg font-bold leading-none mt-1.5 shrink-0" style={{ color }}>
           ·
         </span>
-        {chunk.replace(/^-\s*/, '')}
-      </p>
+        <p className="text-lg text-muted-foreground leading-relaxed">
+          {chunk.replace(/^-\s*/, '')}
+        </p>
+      </div>
     )
   }
 
   return (
-    <p key={index} dir="rtl" className="text-sm text-muted-foreground leading-relaxed">
+    <p key={index} dir="rtl" className="text-lg text-muted-foreground leading-relaxed">
       {chunk}
     </p>
   )
@@ -68,9 +70,9 @@ export default async function ArticleDetailPage({
 
   return (
     <div className="min-h-screen bg-ambient" dir="rtl">
-      <div className="max-w-2xl">
+      <div className="max-w-3xl mx-auto">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
+        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
           <Link
             href="/dashboard/knowledge-hub"
             className="hover:text-foreground transition-colors flex items-center gap-1"
@@ -79,43 +81,60 @@ export default async function ArticleDetailPage({
             מרכז הידע
           </Link>
           <ChevronLeft className="w-3.5 h-3.5 opacity-40" />
-          <span className="truncate max-w-xs" style={{ color: 'oklch(0.80 0.01 252)' }}>
-            {article.title}
-          </span>
-        </div>
+          <span className="truncate max-w-xs opacity-70">{article.title}</span>
+        </nav>
 
-        {/* Meta row */}
-        <div className="flex items-center gap-3 mb-4">
-          <span
-            className="text-xs font-semibold px-2.5 py-1 rounded-full"
-            style={{ background: color.replace(')', ' / 15%)'), color }}
+        {/* Article header */}
+        <header className="mb-8 space-y-5" dir="rtl">
+          {/* Pills */}
+          <div className="flex items-center gap-3">
+            <span
+              className="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide"
+              style={{ background: color.replace(')', ' / 15%)'), color }}
+            >
+              {article.category}
+            </span>
+            <span
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
+              style={{ background: 'oklch(1 0 0 / 6%)', color: 'oklch(0.65 0.01 252)' }}
+            >
+              <Clock className="w-3.5 h-3.5" />
+              {article.readTime} דקות קריאה
+            </span>
+          </div>
+
+          {/* Title */}
+          <h1
+            className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight text-right"
+            style={{ color: 'oklch(0.95 0.005 252)' }}
           >
-            {article.category}
-          </span>
-          <span className="flex items-center gap-1 text-xs text-muted-foreground">
-            <Clock className="w-3 h-3" />
-            {article.readTime} דקות קריאה
-          </span>
-        </div>
+            {article.title}
+          </h1>
 
-        {/* Title */}
-        <h1
-          className="text-3xl font-extrabold tracking-tight mb-5"
-          style={{ color: 'oklch(0.93 0.008 252)' }}
-        >
-          {article.title}
-        </h1>
+          {/* Excerpt as styled intro */}
+          <p
+            className="text-xl leading-relaxed text-right"
+            style={{ color: 'oklch(0.70 0.012 252)' }}
+          >
+            {article.excerpt}
+          </p>
+        </header>
 
-        {/* Divider */}
-        <div className="border-t mb-6" style={{ borderColor: 'oklch(1 0 0 / 9%)' }} />
+        {/* Gradient separator anchored to the RTL start (right) */}
+        <div
+          className="h-px mb-10"
+          style={{
+            background: `linear-gradient(to left, ${color.replace(')', ' / 45%)')}, oklch(1 0 0 / 6%), transparent)`,
+          }}
+        />
 
         {/* Body */}
-        <div className="space-y-4">
+        <div className="space-y-6">
           {paragraphs.map((chunk, i) => renderParagraph(chunk, color, i))}
         </div>
 
-        {/* Back button */}
-        <div className="mt-10 pt-6 border-t" style={{ borderColor: 'oklch(1 0 0 / 9%)' }}>
+        {/* Back */}
+        <div className="mt-12 pt-6 border-t" style={{ borderColor: 'oklch(1 0 0 / 9%)' }}>
           <Link
             href="/dashboard/knowledge-hub"
             className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), 'gap-2')}
