@@ -5,19 +5,7 @@ import { ArrowRight, Clock, ChevronLeft } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import type { KnowledgeArticle } from '@/types/knowledge'
-
-const CATEGORY_COLORS: Record<string, string> = {
-  ראיונות: 'oklch(0.585 0.212 264.4)',
-  GitHub: 'oklch(0.65 0.15 211)',
-  LinkedIn: 'oklch(0.60 0.17 162)',
-  קריירה: 'oklch(0.75 0.16 60)',
-  פורטפוליו: 'oklch(0.58 0.21 291)',
-  'קורות חיים': 'oklch(0.62 0.22 27)',
-}
-
-function categoryColor(category: string): string {
-  return CATEGORY_COLORS[category] ?? 'oklch(0.585 0.212 264.4)'
-}
+import { getCategoryColor } from '../_components/category-colors'
 
 export async function generateStaticParams() {
   const t = await getTranslations('knowledge')
@@ -79,7 +67,7 @@ export default async function ArticleDetailPage({
 
   if (!article) notFound()
 
-  const color = categoryColor(article.category)
+  const color = getCategoryColor(article.category)
   const paragraphs = article.content.split('\n\n').filter(Boolean)
 
   return (
