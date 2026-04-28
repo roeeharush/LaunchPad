@@ -13,7 +13,9 @@ export interface TechPulse {
 
 export interface InterviewQA {
   question: string
+  translationHe?: string
   answer: string
+  contextHe?: string
   difficulty: 'easy' | 'medium' | 'hard'
 }
 

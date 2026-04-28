@@ -1,27 +1,9 @@
 import { BookOpen } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
-import { createClient } from '@/lib/supabase/server'
 import { KnowledgeHubClient } from './_components/knowledge-hub-client'
-import type { KnowledgeBookmark, KnowledgeArticle } from '@/types/knowledge'
+import type { KnowledgeArticle } from '@/types/knowledge'
 
 export default async function KnowledgeHubPage() {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  let initialBookmarks: KnowledgeBookmark[] = []
-  if (user) {
-    const { data } = await supabase
-      .from('knowledge_bookmarks')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
-      .limit(50)
-
-    initialBookmarks = (data ?? []) as KnowledgeBookmark[]
-  }
-
   const t = await getTranslations('knowledge')
   const articlesData = t.raw('articles') as {
     sectionTitle: string
@@ -42,12 +24,11 @@ export default async function KnowledgeHubPage() {
           מרכז הידע
         </h1>
         <p className="text-muted-foreground mt-1.5 text-sm">
-          טרנדים יומיים · הכנה לראיונות · סימניות חכמות — הכל מופעל ע&quot;י AI
+          טרנדים יומיים · הכנה לראיונות · מאמרים מקצועיים — מופעל ע&quot;י AI
         </p>
       </div>
 
       <KnowledgeHubClient
-        initialBookmarks={initialBookmarks}
         articles={articlesData.items}
         articlesSectionTitle={articlesData.sectionTitle}
       />

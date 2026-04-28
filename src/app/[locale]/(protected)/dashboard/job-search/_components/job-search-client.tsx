@@ -1,14 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { Briefcase, ClipboardList, Upload } from 'lucide-react'
+import { Briefcase, ClipboardList, Upload, X } from 'lucide-react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { JobDiscoveryPanel } from './job-discovery-panel'
 import { ApplicationTracker } from './application-tracker'
+import { UploadForm } from '../../resume-analyzer/_components/upload-form'
 import type { JobApplication, ApplicationStatus } from '@/types/jobs'
+import type { ResumeRecord } from '@/types/resume'
 
 interface ResumeInfo {
   hasResume: boolean
@@ -69,9 +70,56 @@ function StepRow({
   )
 }
 
-export function JobSearchClient({ initialApplications, resumeInfo }: JobSearchClientProps) {
+function ResumeUploadModal({
+  onClose,
+  onSuccess,
+}: {
+  onClose: () => void
+  onSuccess: (record: ResumeRecord) => void
+}) {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ background: 'oklch(0 0 0 / 60%)' }}
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-xl rounded-2xl p-6 shadow-2xl"
+        style={{ background: 'var(--card)', border: '1px solid oklch(1 0 0 / 10%)' }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="font-bold text-lg">העלאת קורות חיים</h2>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-white/10 transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <UploadForm onResult={onSuccess} />
+      </div>
+    </div>
+  )
+}
+
+export function JobSearchClient({
+  initialApplications,
+  resumeInfo: initialResumeInfo,
+}: JobSearchClientProps) {
   const [activeTab, setActiveTab] = useState('discover')
   const [applications, setApplications] = useState<JobApplication[]>(initialApplications)
+  const [resumeInfo, setResumeInfo] = useState(initialResumeInfo)
+  const [uploadModalOpen, setUploadModalOpen] = useState(false)
+
+  function handleResumeUploaded(record: ResumeRecord) {
+    setResumeInfo({
+      hasResume: true,
+      score: record.score,
+      skills: record.analysis_json?.strengths ?? [],
+    })
+    setUploadModalOpen(false)
+  }
 
   function handleApplicationSaved(application: JobApplication) {
     setApplications((prev) => [application, ...prev])
@@ -91,46 +139,55 @@ export function JobSearchClient({ initialApplications, resumeInfo }: JobSearchCl
 
   if (!resumeInfo.hasResume) {
     return (
-      <div className="space-y-6 max-w-lg">
-        <div className="space-y-3">
-          <StepRow num={1} title="העלה קורות חיים" desc={step1Desc} state="current" />
-          <StepRow
-            num={2}
-            title="מצא משרות מתאימות"
-            desc="ה-AI יציע 10 משרות רלוונטיות בהייטק הישראלי"
-            state="locked"
-          />
+      <>
+        <div className="space-y-6 max-w-lg">
+          <div className="space-y-3">
+            <StepRow num={1} title="העלה קורות חיים" desc={step1Desc} state="current" />
+            <StepRow
+              num={2}
+              title="מצא משרות מתאימות"
+              desc="ה-AI יציע 10 משרות רלוונטיות בהייטק הישראלי"
+              state="locked"
+            />
+          </div>
+
+          <div
+            className="rounded-2xl border-2 border-dashed p-8 flex flex-col items-center text-center gap-4"
+            style={{
+              borderColor: YELLOW.replace(')', ' / 40%)'),
+              background: YELLOW.replace(')', ' / 5%)'),
+            }}
+          >
+            <div
+              className="w-14 h-14 rounded-2xl flex items-center justify-center"
+              style={{ background: YELLOW.replace(')', ' / 15%)') }}
+            >
+              <Upload className="w-7 h-7" style={{ color: YELLOW }} />
+            </div>
+            <div>
+              <p className="font-bold text-base mb-1">קורות חיים לא נמצאו</p>
+              <p className="text-sm text-muted-foreground max-w-xs">
+                כדי שנוכל למצוא משרות מתאימות, נצטרך לנתח את קורות החיים שלך תחילה
+              </p>
+            </div>
+            <button
+              onClick={() => setUploadModalOpen(true)}
+              className={cn(buttonVariants({ size: 'default' }), 'gap-2 font-semibold mt-1')}
+              style={{ background: YELLOW, color: 'oklch(0.15 0.02 60)' }}
+            >
+              <Upload className="w-4 h-4" />
+              העלה קורות חיים עכשיו
+            </button>
+          </div>
         </div>
 
-        <div
-          className="rounded-2xl border-2 border-dashed p-8 flex flex-col items-center text-center gap-4"
-          style={{
-            borderColor: YELLOW.replace(')', ' / 40%)'),
-            background: YELLOW.replace(')', ' / 5%)'),
-          }}
-        >
-          <div
-            className="w-14 h-14 rounded-2xl flex items-center justify-center"
-            style={{ background: YELLOW.replace(')', ' / 15%)') }}
-          >
-            <Upload className="w-7 h-7" style={{ color: YELLOW }} />
-          </div>
-          <div>
-            <p className="font-bold text-base mb-1">קורות חיים לא נמצאו</p>
-            <p className="text-sm text-muted-foreground max-w-xs">
-              כדי שנוכל למצוא משרות מתאימות, נצטרך לנתח את קורות החיים שלך תחילה
-            </p>
-          </div>
-          <Link
-            href="/dashboard/resume-analyzer"
-            className={cn(buttonVariants({ size: 'default' }), 'gap-2 font-semibold mt-1')}
-            style={{ background: YELLOW, color: 'oklch(0.15 0.02 60)' }}
-          >
-            <Upload className="w-4 h-4" />
-            העלה קורות חיים עכשיו
-          </Link>
-        </div>
-      </div>
+        {uploadModalOpen && (
+          <ResumeUploadModal
+            onClose={() => setUploadModalOpen(false)}
+            onSuccess={handleResumeUploaded}
+          />
+        )}
+      </>
     )
   }
 

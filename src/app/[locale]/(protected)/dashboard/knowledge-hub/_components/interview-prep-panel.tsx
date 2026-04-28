@@ -1,15 +1,11 @@
 'use client'
 
 import { useTransition, useState } from 'react'
-import { GraduationCap, Bookmark, Loader2, ChevronDown } from 'lucide-react'
+import { GraduationCap, Loader2, ChevronDown } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { generateInterviewPrepAction } from '../actions'
 import type { InterviewPrepResult, InterviewQA } from '@/types/knowledge'
-
-interface InterviewPrepPanelProps {
-  onBookmark: (title: string, content: string, source: 'trend' | 'interview') => void
-}
 
 const CATEGORIES = [
   {
@@ -56,18 +52,9 @@ const DIFFICULTY_CONFIG = {
   hard: { label: 'קשה', color: 'oklch(0.62 0.22 27)' },
 }
 
-function QACard({
-  qa,
-  index,
-  onBookmark,
-}: {
-  qa: InterviewQA
-  index: number
-  onBookmark: (title: string, content: string) => void
-}) {
+function QACard({ qa, index }: { qa: InterviewQA; index: number }) {
   const [open, setOpen] = useState(false)
   const diff = DIFFICULTY_CONFIG[qa.difficulty]
-  const bookmarkContent = `שאלה: ${qa.question}\n\nתשובה: ${qa.answer}`
 
   return (
     <div
@@ -97,6 +84,9 @@ function QACard({
             </span>
           </div>
           <p className="text-sm font-medium leading-relaxed">{qa.question}</p>
+          {qa.translationHe && (
+            <p className="text-xs text-muted-foreground mt-1">{qa.translationHe}</p>
+          )}
         </div>
         <ChevronDown
           className={cn(
@@ -107,25 +97,27 @@ function QACard({
       </button>
 
       {open && (
-        <div className="px-5 pb-4 pt-2 border-t" style={{ borderColor: 'oklch(1 0 0 / 8%)' }}>
-          <p className="text-sm text-muted-foreground leading-relaxed mb-3">{qa.answer}</p>
-          <button
-            onClick={() => onBookmark(`Q: ${qa.question.slice(0, 60)}`, bookmarkContent)}
-            className={cn(
-              buttonVariants({ variant: 'ghost', size: 'sm' }),
-              'gap-1.5 text-muted-foreground hover:text-foreground px-2'
-            )}
-          >
-            <Bookmark className="w-3.5 h-3.5" />
-            שמור סימניה
-          </button>
+        <div
+          className="px-5 pb-4 pt-2 border-t space-y-2"
+          style={{ borderColor: 'oklch(1 0 0 / 8%)' }}
+        >
+          <p className="text-sm text-muted-foreground leading-relaxed">{qa.answer}</p>
+          {qa.contextHe && (
+            <p
+              className="text-xs rounded-lg px-3 py-2"
+              style={{ background: 'oklch(0.585 0.212 264.4 / 8%)', color: 'oklch(0.75 0.12 264)' }}
+            >
+              <span className="font-semibold">מה בוחנים: </span>
+              {qa.contextHe}
+            </p>
+          )}
         </div>
       )}
     </div>
   )
 }
 
-export function InterviewPrepPanel({ onBookmark }: InterviewPrepPanelProps) {
+export function InterviewPrepPanel() {
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
   const [prepResult, setPrepResult] = useState<InterviewPrepResult | null>(null)
@@ -274,12 +266,7 @@ export function InterviewPrepPanel({ onBookmark }: InterviewPrepPanelProps) {
           </div>
           <div className="space-y-2">
             {prepResult.questions.map((qa, i) => (
-              <QACard
-                key={i}
-                qa={qa}
-                index={i}
-                onBookmark={(title, content) => onBookmark(title, content, 'interview')}
-              />
+              <QACard key={i} qa={qa} index={i} />
             ))}
           </div>
         </div>

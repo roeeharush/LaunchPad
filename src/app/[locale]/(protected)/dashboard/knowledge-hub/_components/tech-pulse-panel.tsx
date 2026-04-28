@@ -1,15 +1,11 @@
 'use client'
 
 import { useEffect, useTransition, useState, useCallback } from 'react'
-import { TrendingUp, Bookmark, RefreshCw } from 'lucide-react'
+import { TrendingUp, RefreshCw } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { generateIndustryTrendsAction } from '../actions'
 import type { TechPulse, TechTrend } from '@/types/knowledge'
-
-interface TechPulsePanelProps {
-  onBookmark: (title: string, content: string, source: 'trend' | 'interview') => void
-}
 
 const TAG_COLORS: Record<string, string> = {
   'AI/ML': 'oklch(0.58 0.21 291)',
@@ -50,22 +46,15 @@ function TrendCardSkeleton() {
   )
 }
 
-function TrendCard({
-  trend,
-  onBookmark,
-}: {
-  trend: TechTrend
-  onBookmark: (title: string, content: string) => void
-}) {
+function TrendCard({ trend }: { trend: TechTrend }) {
   const color = tagColor(trend.tag)
-  const bookmarkContent = `${trend.summary}\n\nלמה עכשיו: ${trend.whyNow}\n\nהשפעה: ${trend.impact}`
 
   return (
     <div
       className="rounded-2xl p-5 border flex flex-col gap-3"
       style={{ background: 'var(--card)', borderColor: color.replace(')', ' / 20%)') }}
     >
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-start gap-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-2">
             <span
@@ -77,17 +66,6 @@ function TrendCard({
           </div>
           <h3 className="font-bold text-base leading-tight">{trend.title}</h3>
         </div>
-        <button
-          onClick={() => onBookmark(trend.title, bookmarkContent)}
-          className={cn(
-            buttonVariants({ variant: 'ghost', size: 'sm' }),
-            'shrink-0 px-2 text-muted-foreground hover:text-foreground'
-          )}
-          title="שמור סימניה"
-          aria-label="שמור סימניה"
-        >
-          <Bookmark className="w-4 h-4" />
-        </button>
       </div>
 
       <p className="text-sm text-muted-foreground leading-relaxed">{trend.summary}</p>
@@ -110,7 +88,7 @@ function TrendCard({
   )
 }
 
-export function TechPulsePanel({ onBookmark }: TechPulsePanelProps) {
+export function TechPulsePanel() {
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
   const [pulse, setPulse] = useState<TechPulse | null>(null)
@@ -174,11 +152,7 @@ export function TechPulsePanel({ onBookmark }: TechPulsePanelProps) {
       {pulse && !isPending && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {pulse.trends.map((trend, i) => (
-            <TrendCard
-              key={i}
-              trend={trend}
-              onBookmark={(title, content) => onBookmark(title, content, 'trend')}
-            />
+            <TrendCard key={i} trend={trend} />
           ))}
         </div>
       )}

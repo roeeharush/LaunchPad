@@ -7,6 +7,9 @@ function getClient(): Anthropic {
   return _client
 }
 
+let _cache: { pulse: TechPulse; ts: number } | null = null
+const CACHE_TTL = 24 * 60 * 60 * 1000
+
 export function parseTechPulse(raw: string): TechPulse {
   const cleaned = raw
     .replace(/^```(?:json)?\n?/m, '')
@@ -33,6 +36,10 @@ export function parseTechPulse(raw: string): TechPulse {
 }
 
 export async function generateIndustryTrends(): Promise<TechPulse> {
+  if (_cache && Date.now() - _cache.ts < CACHE_TTL) {
+    return _cache.pulse
+  }
+
   const now = new Date().toISOString()
 
   const prompt = `אתה מומחה טכנולוגיה ותעשיית ההייטק עם יד על הדופק של הטרנדים הכי חמים ב-2026. צור דוח טרנדים עשיר ומעמיק של תעשיית הטכנולוגיה.
@@ -76,5 +83,7 @@ export async function generateIndustryTrends(): Promise<TechPulse> {
   const content = message.content[0]
   if (!content || content.type !== 'text') throw new Error('תשובת Claude אינה טקסט')
 
-  return parseTechPulse(content.text)
+  const pulse = parseTechPulse(content.text)
+  _cache = { pulse, ts: Date.now() }
+  return pulse
 }

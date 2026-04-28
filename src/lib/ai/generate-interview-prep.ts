@@ -42,8 +42,10 @@ export async function generateInterviewPrep(topic: string): Promise<InterviewPre
   "topic": "${topic}",
   "questions": [
     {
-      "question": "<שאלת ראיון ממוקדת בנושא — באנגלית או עברית לפי הנושא>",
-      "answer": "<תשובה מפורטת ומדויקת — 2-4 משפטים>",
+      "question": "<שאלת הראיון — תמיד באנגלית, כפי שנשאלת בראיון אמיתי>",
+      "translationHe": "<תרגום השאלה לעברית — משפט אחד>",
+      "answer": "<תשובה מפורטת ומדויקת — 2-4 משפטים. אם הנושא טכני — באנגלית. אם Behavioral/System Design — בעברית>",
+      "contextHe": "<הקשר קצר בעברית: למה שאלה זו נשאלת ומה המראיין בוחן — משפט אחד>",
       "difficulty": "<easy | medium | hard>"
     }
   ]
@@ -52,10 +54,10 @@ export async function generateInterviewPrep(topic: string): Promise<InterviewPre
 הנחיות:
 - צור בדיוק 5 שאלות
 - הפצל: 1 שאלה קלה, 2 בינוניות, 2 קשות
+- ה-question תמיד באנגלית — כך נשאלות שאלות בראיונות הייטק אמיתיים
+- translationHe — תרגום מדויק לעברית, עוזר למועמדים שאנגלית אינה שפתם הראשונה
+- contextHe — הסבר קצר בעברית מה המראיין בוחן בשאלה זו
 - השאלות חייבות לבדוק הבנה אמיתית, לא זיכרון
-- התשובות צריכות להיות מדויקות ופרקטיות
-- אם הנושא טכני (React, SQL, etc.) — שאלות ותשובות באנגלית
-- אם הנושא רך (System Design, Behavioral) — שאלות ותשובות בעברית
 
 החזר JSON בלבד.`
 
