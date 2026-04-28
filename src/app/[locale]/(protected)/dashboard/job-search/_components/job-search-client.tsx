@@ -97,7 +97,10 @@ function ResumeUploadModal({
             <X className="w-4 h-4" />
           </button>
         </div>
-        <UploadForm onResult={onSuccess} />
+        <UploadForm
+          onResult={onSuccess}
+          hiddenJobDescription="מפתח תוכנה בתעשיית ההייטק הישראלית — ניתוח כישורים טכניים כלליים לצורך חיפוש עבודה"
+        />
       </div>
     </div>
   )
@@ -113,6 +116,7 @@ export function JobSearchClient({
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
 
   function handleResumeUploaded(record: ResumeRecord) {
+    console.log('[JobSearch] resume uploaded, record id:', record.id, 'score:', record.score)
     setResumeInfo({
       hasResume: true,
       score: record.score,

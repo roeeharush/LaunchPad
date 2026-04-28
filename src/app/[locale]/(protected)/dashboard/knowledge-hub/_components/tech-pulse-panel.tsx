@@ -96,11 +96,18 @@ export function TechPulsePanel() {
   const loadTrends = useCallback(() => {
     setError(null)
     startTransition(async () => {
-      const result = await generateIndustryTrendsAction()
-      if (result.ok) {
-        setPulse(result.pulse)
-      } else {
-        setError(result.error)
+      try {
+        console.log('[TechPulsePanel] calling generateIndustryTrendsAction')
+        const result = await generateIndustryTrendsAction()
+        console.log('[TechPulsePanel] action result:', result.ok ? 'ok' : result.error)
+        if (result.ok) {
+          setPulse(result.pulse)
+        } else {
+          setError(result.error)
+        }
+      } catch (err) {
+        console.error('[TechPulsePanel] unexpected error:', err)
+        setError('שגיאה בטעינת הטרנדים. נסה שוב.')
       }
     })
   }, [startTransition])

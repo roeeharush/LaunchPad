@@ -9,13 +9,15 @@ import type { ResumeRecord } from '@/types/resume'
 
 interface UploadFormProps {
   onResult: (record: ResumeRecord) => void
+  /** Pre-fills and hides the job description field — used when calling from outside the resume analyzer (e.g. Job Search modal) */
+  hiddenJobDescription?: string
 }
 
-export function UploadForm({ onResult }: UploadFormProps) {
+export function UploadForm({ onResult, hiddenJobDescription }: UploadFormProps) {
   const [isPending, startTransition] = useTransition()
   const [dragging, setDragging] = useState(false)
   const [file, setFile] = useState<File | null>(null)
-  const [jobDescription, setJobDescription] = useState('')
+  const [jobDescription, setJobDescription] = useState(hiddenJobDescription ?? '')
   const [error, setError] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -138,30 +140,32 @@ export function UploadForm({ onResult }: UploadFormProps) {
         )}
       </div>
 
-      {/* Job Description */}
-      <div className="space-y-2">
-        <label className="flex items-center gap-2 text-sm font-medium">
-          <Briefcase className="w-4 h-4" style={{ color: 'oklch(0.585 0.212 264.4)' }} />
-          תיאור המשרה
-        </label>
-        <textarea
-          value={jobDescription}
-          onChange={(e) => setJobDescription(e.target.value)}
-          placeholder="הדבק כאן את תיאור המשרה המלא — דרישות, כישורים, תפקידים..."
-          rows={6}
-          className={cn(
-            'w-full rounded-xl px-4 py-3 text-sm resize-none',
-            'bg-card border border-border',
-            'placeholder:text-muted-foreground/60',
-            'focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent',
-            'transition-all duration-150'
-          )}
-          dir="rtl"
-        />
-        <p className="text-xs text-muted-foreground text-start">
-          {jobDescription.length} תווים{jobDescription.length < 20 ? ' (מינימום 20)' : ''}
-        </p>
-      </div>
+      {/* Job Description — hidden when a default is injected by the caller */}
+      {!hiddenJobDescription && (
+        <div className="space-y-2">
+          <label className="flex items-center gap-2 text-sm font-medium">
+            <Briefcase className="w-4 h-4" style={{ color: 'oklch(0.585 0.212 264.4)' }} />
+            תיאור המשרה
+          </label>
+          <textarea
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value)}
+            placeholder="הדבק כאן את תיאור המשרה המלא — דרישות, כישורים, תפקידים..."
+            rows={6}
+            className={cn(
+              'w-full rounded-xl px-4 py-3 text-sm resize-none',
+              'bg-card border border-border',
+              'placeholder:text-muted-foreground/60',
+              'focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent',
+              'transition-all duration-150'
+            )}
+            dir="rtl"
+          />
+          <p className="text-xs text-muted-foreground text-start">
+            {jobDescription.length} תווים{jobDescription.length < 20 ? ' (מינימום 20)' : ''}
+          </p>
+        </div>
+      )}
 
       {/* Error */}
       {error && (
@@ -181,7 +185,9 @@ export function UploadForm({ onResult }: UploadFormProps) {
       <Button
         type="submit"
         className="w-full gap-2 font-semibold"
-        disabled={!file || jobDescription.trim().length < 20 || isPending}
+        disabled={
+          !file || (!hiddenJobDescription && jobDescription.trim().length < 20) || isPending
+        }
         style={
           !isPending
             ? {
