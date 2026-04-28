@@ -2,14 +2,13 @@ import { describe, it, expect } from 'vitest'
 import { parseTechPulse } from '@/lib/ai/generate-trends'
 
 const validPulse = {
-  username: 'roeeharush',
-  topLanguages: ['TypeScript', 'Python'],
+  generatedAt: new Date().toISOString(),
   trends: [
     {
       title: 'AI-Augmented Development',
       summary: 'AI coding tools are transforming workflows.',
       whyNow: 'GitHub Copilot usage doubled this year.',
-      relevance: 'TypeScript developers benefit most from AI completions.',
+      impact: 'Developers who adopt AI tools ship 40% faster.',
       tag: 'AI/ML',
     },
   ],
@@ -18,8 +17,7 @@ const validPulse = {
 describe('parseTechPulse', () => {
   it('parses valid JSON response', () => {
     const result = parseTechPulse(JSON.stringify(validPulse))
-    expect(result.username).toBe('roeeharush')
-    expect(result.topLanguages).toHaveLength(2)
+    expect(result.generatedAt).toBeTruthy()
     expect(result.trends).toHaveLength(1)
     expect(result.trends[0]!.tag).toBe('AI/ML')
   })
@@ -35,12 +33,12 @@ describe('parseTechPulse', () => {
   })
 
   it('throws when trends array is missing', () => {
-    const bad = { username: 'x', topLanguages: [] }
+    const bad = { generatedAt: new Date().toISOString() }
     expect(() => parseTechPulse(JSON.stringify(bad))).toThrow()
   })
 
-  it('throws when username is missing', () => {
-    const bad = { topLanguages: ['TypeScript'], trends: [] }
+  it('throws when generatedAt is missing', () => {
+    const bad = { trends: [] }
     expect(() => parseTechPulse(JSON.stringify(bad))).toThrow()
   })
 })

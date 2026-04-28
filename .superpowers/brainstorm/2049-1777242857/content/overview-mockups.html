@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LaunchPad UX Mockups</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Rubik', 'Segoe UI', sans-serif;
+    background: #0f0f14;
+    color: #e2e2ec;
+    padding: 24px;
+    direction: rtl;
+  }
+  .page-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    background: linear-gradient(135deg, #a78bfa, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .page-subtitle {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 32px;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #6b7280;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #1f1f2e;
+  }
+  .section { margin-bottom: 40px; }
+
+  /* App Shell */
+  .app-shell {
+    display: flex;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #1f1f2e;
+    background: #0d0d12;
+    height: 420px;
+  }
+  .sidebar {
+    width: 200px;
+    background: #111118;
+    border-left: 1px solid #1f1f2e;
+    padding: 16px 12px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 8px 16px;
+    border-bottom: 1px solid #1f1f2e;
+    margin-bottom: 8px;
+  }
+  .sidebar-logo-icon {
+    width: 28px; height: 28px;
+    background: oklch(0.585 0.212 264.4);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 12px; color: white;
+  }
+  .sidebar-logo span { font-weight: 700; font-size: 13px; }
+  .nav-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #6b7280;
+    cursor: pointer;
+  }
+  .nav-item.active {
+    background: oklch(0.58 0.21 291 / 15%);
+    box-shadow: inset 0 0 0 1px oklch(0.58 0.21 291 / 25%);
+    color: #e2e2ec;
+  }
+  .nav-item.active .nav-icon {
+    background: oklch(0.58 0.21 291 / 20%);
+    color: oklch(0.58 0.21 291);
+  }
+  .nav-item.new-item {
+    background: oklch(0.60 0.17 162 / 12%);
+    box-shadow: inset 0 0 0 1px oklch(0.60 0.17 162 / 20%);
+    color: #e2e2ec;
+  }
+  .nav-item.new-item .nav-icon {
+    background: oklch(0.60 0.17 162 / 20%);
+    color: oklch(0.60 0.17 162);
+  }
+  .nav-icon {
+    width: 26px; height: 26px;
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.05);
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .nav-dot { width: 6px; height: 6px; border-radius: 50%; margin-right: auto; flex-shrink: 0; }
+  .new-badge {
+    font-size: 9px;
+    font-weight: 700;
+    background: oklch(0.60 0.17 162 / 20%);
+    color: oklch(0.60 0.17 162);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  /* Main content area */
+  .main { flex: 1; padding: 24px; overflow-y: auto; }
+  .page-header { margin-bottom: 20px; }
+  .breadcrumb { font-size: 11px; color: #6b7280; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .page-h1 { font-size: 20px; font-weight: 800; color: #e8e8f4; }
+  .page-desc { font-size: 12px; color: #6b7280; margin-top: 4px; }
+
+  /* Cards */
+  .card {
+    background: #131320;
+    border: 1px solid #1f1f2e;
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+  /* Input mock */
+  .mock-input {
+    background: #0d0d12;
+    border: 1px solid #2a2a3e;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  .mock-textarea {
+    background: #0d0d12;
+    border: 1px solid #2a2a3e;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #6b7280;
+    height: 70px;
+    width: 100%;
+    resize: none;
+  }
+  .mock-btn {
+    border: none;
+    border-radius: 10px;
+    padding: 9px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-purple { background: oklch(0.58 0.21 291); color: white; }
+  .btn-green { background: oklch(0.60 0.17 162); color: white; }
+  .btn-yellow { background: oklch(0.75 0.16 60); color: #1a1000; }
+  .btn-blue { background: oklch(0.585 0.212 264.4); color: white; }
+  .btn-ghost {
+    background: transparent;
+    color: #6b7280;
+    border: 1px solid #2a2a3e;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    background: #131320;
+    border: 1px solid #1f1f2e;
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    width: fit-content;
+  }
+  .tab {
+    padding: 6px 14px;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #6b7280;
+    white-space: nowrap;
+  }
+  .tab.active { background: oklch(0.65 0.15 211 / 15%); color: oklch(0.65 0.15 211); }
+  .tab.active-purple { background: oklch(0.58 0.21 291 / 15%); color: oklch(0.58 0.21 291); }
+  .tab.active-yellow { background: oklch(0.75 0.16 60 / 15%); color: oklch(0.75 0.16 60); }
+  .tab.active-green { background: oklch(0.60 0.17 162 / 15%); color: oklch(0.60 0.17 162); }
+
+  /* Score card */
+  .score-ring {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 800;
+    border: 3px solid;
+    margin: 0 auto 10px;
+  }
+  .score-purple { border-color: oklch(0.58 0.21 291); color: oklch(0.58 0.21 291); }
+  .score-green { border-color: oklch(0.60 0.17 162); color: oklch(0.60 0.17 162); }
+
+  /* Step indicators */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    background: #0d0d12;
+    border: 1px solid #1f1f2e;
+    border-radius: 12px;
+  }
+  .step.done { border-color: oklch(0.60 0.17 162 / 40%); background: oklch(0.60 0.17 162 / 5%); }
+  .step.current { border-color: oklch(0.75 0.16 60 / 50%); background: oklch(0.75 0.16 60 / 8%); }
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800;
+    flex-shrink: 0;
+    background: #1f1f2e;
+    color: #6b7280;
+  }
+  .step.done .step-num { background: oklch(0.60 0.17 162 / 20%); color: oklch(0.60 0.17 162); }
+  .step.current .step-num { background: oklch(0.75 0.16 60 / 20%); color: oklch(0.75 0.16 60); }
+  .step-text h4 { font-size: 12px; font-weight: 700; color: #e2e2ec; margin-bottom: 2px; }
+  .step-text p { font-size: 11px; color: #6b7280; }
+
+  /* Upload prompt */
+  .upload-prompt {
+    border: 2px dashed oklch(0.75 0.16 60 / 40%);
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+    background: oklch(0.75 0.16 60 / 5%);
+  }
+  .upload-icon {
+    width: 48px; height: 48px;
+    background: oklch(0.75 0.16 60 / 15%);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin: 0 auto 12px;
+  }
+
+  /* Knowledge Hub grid */
+  .kh-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .kh-card {
+    background: #0d0d12;
+    border: 1px solid #1f1f2e;
+    border-radius: 12px;
+    padding: 14px;
+  }
+  .kh-card-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .kh-card h4 { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+  .kh-card p { font-size: 11px; color: #6b7280; }
+  .tooltip-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    background: #1f1f2e;
+    color: #6b7280;
+    padding: 2px 7px;
+    border-radius: 5px;
+    margin-top: 6px;
+  }
+
+  /* Section headers in mockups */
+  .mock-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6b7280;
+    margin-bottom: 8px;
+  }
+  .label-small {
+    font-size: 10px;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 4px;
+  }
+
+  /* Tag */
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 5px;
+    margin-bottom: 6px;
+  }
+  .tag-blue { background: oklch(0.585 0.212 264.4 / 15%); color: oklch(0.585 0.212 264.4); }
+  .tag-green { background: oklch(0.60 0.17 162 / 15%); color: oklch(0.60 0.17 162); }
+  .tag-yellow { background: oklch(0.75 0.16 60 / 15%); color: oklch(0.75 0.16 60); }
+  .tag-purple { background: oklch(0.58 0.21 291 / 15%); color: oklch(0.58 0.21 291); }
+
+  /* Divider label */
+  .vs-label {
+    font-size: 11px; font-weight: 700; color: #6b7280;
+    text-align: center; padding: 6px;
+  }
+
+  /* Selectable option */
+  .option-wrapper {
+    border: 2px solid transparent;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    position: relative;
+  }
+  .option-wrapper:hover { border-color: oklch(0.585 0.212 264.4 / 40%); }
+  .option-wrapper.selected { border-color: oklch(0.585 0.212 264.4); }
+  .option-label {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 10px;
+    font-weight: 800;
+    background: oklch(0.585 0.212 264.4);
+    color: white;
+    width: 20px; height: 20px;
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .row { display: flex; gap: 16px; }
+  .col { flex: 1; }
+
+  .tip {
+    display: flex; align-items: flex-start; gap: 8px;
+    padding: 8px 12px;
+    background: oklch(0.585 0.212 264.4 / 8%);
+    border: 1px solid oklch(0.585 0.212 264.4 / 20%);
+    border-radius: 10px;
+    font-size: 11px;
+    color: #a0a0b8;
+    margin-top: 8px;
+  }
+  .tip-icon { color: oklch(0.585 0.212 264.4); flex-shrink: 0; margin-top: 1px; }
+
+  h2.section-h2 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #e2e2ec;
+    margin-bottom: 4px;
+  }
+  p.section-p {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 16px;
+  }
+  .empty-state {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 32px 20px;
+    background: #0d0d12; border: 1px solid #1f1f2e; border-radius: 14px;
+  }
+  .empty-icon {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    margin-bottom: 12px;
+  }
+  .divider { height: 1px; background: #1f1f2e; margin: 16px 0; }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.option-wrapper').forEach(el => {
+      el.addEventListener('click', () => {
+        const group = el.dataset.group;
+        if (group) {
+          document.querySelectorAll(`.option-wrapper[data-group="${group}"]`).forEach(o => o.classList.remove('selected'));
+        }
+        el.classList.toggle('selected');
+        if (window.recordChoice) window.recordChoice(el.dataset.choice, el.dataset.label || '');
+      });
+    });
+  });
+</script>
+</head>
+<body>
+
+<div class="page-title">LaunchPad — UX Redesign Mockups</div>
+<div class="page-subtitle">סקירה ויזואלית של 3 שינויים מרכזיים — לחץ על אפשרות כדי לבחור</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 1: Profile Grader Split
+     ═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">1 — פיצול דירוג הפרופיל</div>
+  <h2 class="section-h2">GitHub Grader + LinkedIn Grader — שני כלים נפרדים</h2>
+  <p class="section-p">כיצד נפריד את הפרופיל המשולב לשני דפים עצמאיים עם ניווט נפרד בסרגל הצד</p>
+
+  <div class="row">
+    <!-- BEFORE -->
+    <div class="col">
+      <div class="tag tag-yellow">לפני — מצב נוכחי</div>
+      <div class="app-shell" style="height:360px">
+        <div class="sidebar" style="width:160px">
+          <div class="sidebar-logo">
+            <div class="sidebar-logo-icon">L</div>
+            <span>LaunchPad</span>
+          </div>
+          <div class="nav-item" style="font-size:11px">🏠 <span>לוח בקרה</span></div>
+          <div class="nav-item" style="font-size:11px">📄 <span>קורות חיים</span></div>
+          <div class="nav-item active" style="font-size:11px">
+            <div class="nav-icon">👤</div>
+            <span>דירוג פרופיל</span>
+            <div class="nav-dot" style="background:oklch(0.58 0.21 291)"></div>
+          </div>
+          <div class="nav-item" style="font-size:11px">📈 <span>טרנדים</span></div>
+          <div class="nav-item" style="font-size:11px">💼 <span>חיפוש עבודה</span></div>
+          <div class="nav-item" style="font-size:11px">📚 <span>מרכז ידע</span></div>
+        </div>
+        <div class="main" style="padding:16px">
+          <div class="page-header">
+            <div class="breadcrumb">👤 ניתוח נוכחות מקצועית</div>
+            <div class="page-h1" style="font-size:15px">דירוג פרופיל מקצועי</div>
+            <div class="page-desc">GitHub + LinkedIn → Online Brand Score</div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1.4fr; gap:10px">
+            <div>
+              <div class="card" style="padding:14px">
+                <div class="label-small">שם משתמש GitHub</div>
+                <div class="mock-input">@username</div>
+                <div class="label-small">טקסט LinkedIn</div>
+                <div class="mock-textarea">הדבק About + Experience...</div>
+                <button class="mock-btn btn-purple" style="margin-top:10px; width:100%; justify-content:center; font-size:11px">נתח את הפרופיל שלי</button>
+              </div>
+            </div>
+            <div class="empty-state" style="padding:20px">
+              <div class="empty-icon" style="background:oklch(0.58 0.21 291 / 10%)">👤</div>
+              <div style="font-size:12px; font-weight:700; margin-bottom:4px">ממתין לניתוח</div>
+              <div style="font-size:11px; color:#6b7280">GitHub + LinkedIn יחד</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AFTER -->
+    <div class="col">
+      <div class="tag tag-green">אחרי — מצב מוצע</div>
+      <div class="app-shell" style="height:360px">
+        <div class="sidebar" style="width:160px">
+          <div class="sidebar-logo">
+            <div class="sidebar-logo-icon">L</div>
+            <span>LaunchPad</span>
+          </div>
+          <div class="nav-item" style="font-size:11px">🏠 <span>לוח בקרה</span></div>
+          <div class="nav-item" style="font-size:11px">📄 <span>קורות חיים</span></div>
+          <div class="nav-item active" style="font-size:11px; background:oklch(0.58 0.21 291 / 15%)">
+            <div class="nav-icon" style="background:oklch(0.58 0.21 291 / 20%); color:oklch(0.58 0.21 291)">🐙</div>
+            <span>GitHub Grader</span>
+            <div class="nav-dot" style="background:oklch(0.58 0.21 291)"></div>
+          </div>
+          <div class="nav-item new-item" style="font-size:11px">
+            <div class="nav-icon">💼</div>
+            <span>LinkedIn Grader</span>
+            <span class="new-badge">חדש</span>
+          </div>
+          <div class="nav-item" style="font-size:11px">📈 <span>טרנדים</span></div>
+          <div class="nav-item" style="font-size:11px">💼 <span>חיפוש עבודה</span></div>
+          <div class="nav-item" style="font-size:11px">📚 <span>מרכז ידע</span></div>
+        </div>
+        <div class="main" style="padding:16px">
+          <div class="page-header">
+            <div class="breadcrumb">🐙 ניתוח GitHub</div>
+            <div class="page-h1" style="font-size:15px">GitHub Grader</div>
+            <div class="page-desc">ניתוח ריפוזיטוריז, שפות וחוזק טכני</div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1.4fr; gap:10px">
+            <div>
+              <div class="card" style="padding:14px">
+                <div class="label-small">שם משתמש GitHub</div>
+                <div class="mock-input">@username</div>
+                <div class="tip" style="margin-bottom:10px; margin-top:0">
+                  <span class="tip-icon">ℹ</span>
+                  <span>מנתח ריפוזיטוריז, שפות, כוכבים ועדכניות הפרויקטים</span>
+                </div>
+                <button class="mock-btn btn-purple" style="width:100%; justify-content:center; font-size:11px">נתח GitHub</button>
+              </div>
+            </div>
+            <div class="card" style="padding:14px">
+              <div class="score-ring score-purple" style="width:50px;height:50px;font-size:16px">82</div>
+              <div style="font-size:11px; font-weight:700; text-align:center; margin-bottom:8px">Tech Score</div>
+              <div style="font-size:10px; color:#6b7280; line-height:1.6">
+                ✦ 23 ריפוזיטוריז ציבוריים<br>
+                ✦ React, TypeScript, Node.js<br>
+                ✦ 3 פרויקטים ב-12 חודשים האחרונים
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip" style="margin-top:12px">
+    <span class="tip-icon">✦</span>
+    <span>הפיצול מאפשר שימוש בכל כלי בנפרד. LinkedIn Grader יקבל ייעוד ב-DB עם <code style="background:#1f1f2e;padding:1px 5px;border-radius:4px">type: 'linkedin'</code> לעומת <code style="background:#1f1f2e;padding:1px 5px;border-radius:4px">type: 'github'</code> — אותה טבלת <code style="background:#1f1f2e;padding:1px 5px;border-radius:4px">profile_analyses</code>.</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 2: Job Search Onboarding
+     ═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">2 — חיפוש עבודה: מסך Onboarding</div>
+  <h2 class="section-h2">Empty State עם הנחיות ברורות</h2>
+  <p class="section-p">שני מצבים: ללא קורות חיים (Step 1 active) ועם קורות חיים (Step 2 active — מוכן לחיפוש)</p>
+
+  <div class="row">
+    <!-- No resume state -->
+    <div class="option-wrapper" data-group="onboarding" data-choice="no-resume" data-label="No-resume onboarding" style="flex:1">
+      <div class="option-label">A</div>
+      <div style="padding:12px">
+        <div class="tag tag-yellow">מצב א׳ — אין קורות חיים</div>
+        <div class="app-shell" style="height:340px">
+          <div class="sidebar" style="width:140px">
+            <div class="sidebar-logo" style="padding-bottom:10px;margin-bottom:6px">
+              <div class="sidebar-logo-icon">L</div>
+              <span>LaunchPad</span>
+            </div>
+            <div class="nav-item active" style="font-size:10px; background:oklch(0.75 0.16 60 / 15%)">
+              <div class="nav-icon" style="background:oklch(0.75 0.16 60 / 20%); color:oklch(0.75 0.16 60)">💼</div>
+              <span>חיפוש עבודה</span>
+            </div>
+          </div>
+          <div class="main" style="padding:16px">
+            <div class="page-h1" style="font-size:14px; margin-bottom:16px">מרכז חיפוש העבודה</div>
+
+            <div class="steps">
+              <div class="step current">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                  <h4>העלה קורות חיים</h4>
+                  <p>ה-AI צריך לנתח את הפרופיל שלך לפני שיוכל למצוא משרות מתאימות</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                  <h4>מצא משרות מתאימות</h4>
+                  <p>ה-AI יציע 10 משרות רלוונטיות בהייטק הישראלי</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="upload-prompt">
+              <div class="upload-icon">📄</div>
+              <div style="font-size:13px; font-weight:800; margin-bottom:6px">קורות חיים לא נמצאו</div>
+              <div style="font-size:11px; color:#6b7280; margin-bottom:14px">כדי שנוכל למצוא משרות מתאימות, נצטרך לנתח את קורות החיים שלך תחילה</div>
+              <button class="mock-btn btn-yellow" style="margin:0 auto; font-size:12px">📄 העלה קורות חיים עכשיו</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Has resume state -->
+    <div class="option-wrapper" data-group="onboarding" data-choice="has-resume" data-label="Has-resume ready" style="flex:1">
+      <div class="option-label">B</div>
+      <div style="padding:12px">
+        <div class="tag tag-green">מצב ב׳ — יש קורות חיים מנותחים</div>
+        <div class="app-shell" style="height:340px">
+          <div class="sidebar" style="width:140px">
+            <div class="sidebar-logo" style="padding-bottom:10px;margin-bottom:6px">
+              <div class="sidebar-logo-icon">L</div>
+              <span>LaunchPad</span>
+            </div>
+            <div class="nav-item active" style="font-size:10px; background:oklch(0.75 0.16 60 / 15%)">
+              <div class="nav-icon" style="background:oklch(0.75 0.16 60 / 20%); color:oklch(0.75 0.16 60)">💼</div>
+              <span>חיפוש עבודה</span>
+            </div>
+          </div>
+          <div class="main" style="padding:16px">
+            <div class="page-h1" style="font-size:14px; margin-bottom:16px">מרכז חיפוש העבודה</div>
+
+            <div class="steps">
+              <div class="step done">
+                <div class="step-num">✓</div>
+                <div class="step-text">
+                  <h4>קורות חיים מנותחים</h4>
+                  <p>ציון: 85/100 · נמצאו 8 כישורים מרכזיים</p>
+                </div>
+              </div>
+              <div class="step current">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                  <h4>מצא משרות מתאימות</h4>
+                  <p>לחץ על הכפתור — ה-AI ינתח ויציע משרות עבורך</p>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:center">
+              <button class="mock-btn btn-yellow" style="font-size:12px">✦ מצא משרות מתאימות</button>
+              <div style="font-size:10px; color:#6b7280">בהתבסס על: React, Node.js, TypeScript</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip" style="margin-top:12px">
+    <span class="tip-icon">✦</span>
+    <span>מצב א׳ מוצג כאשר ה-Server Action לא מוצא רשומת resume מנותחת עבור ה-user. מצב ב׳ מוצג כשיש resume עם <code style="background:#1f1f2e;padding:1px 5px;border-radius:4px">analysis_json</code>. מתאים לשלב את זה ב-page.tsx (server-side fetch) ולהעביר כ-prop.</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 3: Knowledge Hub Redesign
+     ═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">3 — Knowledge Hub: מרכז למידה מובנה</div>
+  <h2 class="section-h2">שלוש גישות לארגון מחדש</h2>
+  <p class="section-p">בחר את הפריסה שמרגישה הכי כמו "מרכז למידה" ולא "רשימת נתונים"</p>
+
+  <div class="row" style="align-items:flex-start">
+    <!-- Option A: Tab + Cards grid -->
+    <div class="option-wrapper" data-group="kh" data-choice="kh-tabs-grid" data-label="Tabs + Cards grid" style="flex:1">
+      <div class="option-label">A</div>
+      <div style="padding:12px">
+        <div class="tag tag-blue">A — טאבים + גריד כרטיסים</div>
+        <div class="card" style="padding:14px; height:300px; overflow:hidden">
+          <div class="tabs" style="width:100%; justify-content:stretch; margin-bottom:12px">
+            <div class="tab active" style="flex:1; text-align:center">⚡ טרנדים</div>
+            <div class="tab" style="flex:1; text-align:center">🎓 ראיונות</div>
+            <div class="tab" style="flex:1; text-align:center">🔖 סימניות (3)</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px">
+            <div class="mock-input" style="flex:1; margin:0">@username</div>
+            <button class="mock-btn btn-blue" style="font-size:11px; padding:8px 12px">צור טרנדים</button>
+          </div>
+          <div class="kh-grid">
+            <div class="kh-card">
+              <div class="kh-card-icon" style="background:oklch(0.585 0.212 264.4 / 15%); color:oklch(0.585 0.212 264.4)">⚡</div>
+              <div class="tag tag-blue" style="font-size:9px">TypeScript</div>
+              <h4>TypeScript 5.4 — Type Predicates</h4>
+              <p>שיפור משמעותי ב-narrowing שעוזר לכתוב קוד בטוח יותר</p>
+              <div class="tooltip-badge">ℹ נוצר ממאגרי GitHub שלך</div>
+            </div>
+            <div class="kh-card">
+              <div class="kh-card-icon" style="background:oklch(0.60 0.17 162 / 15%); color:oklch(0.60 0.17 162)">🔥</div>
+              <div class="tag tag-green" style="font-size:9px">React</div>
+              <h4>React Server Components — Best Practices</h4>
+              <p>כיצד לשלב Server ו-Client Components נכון ב-2024</p>
+              <div class="tooltip-badge">🔖 שמור לסימניות</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Option B: Learning center with sections -->
+    <div class="option-wrapper" data-group="kh" data-choice="kh-learning-center" data-label="Learning center sections" style="flex:1">
+      <div class="option-label">B</div>
+      <div style="padding:12px">
+        <div class="tag tag-purple">B — מרכז למידה עם סקשנים ברורים</div>
+        <div class="card" style="padding:14px; height:300px; overflow:hidden">
+          <div class="three-col" style="margin-bottom:12px">
+            <div class="kh-card" style="border-color: oklch(0.65 0.15 211 / 30%)">
+              <div class="kh-card-icon" style="background:oklch(0.65 0.15 211 / 15%); color:oklch(0.65 0.15 211)">⚡</div>
+              <h4 style="font-size:11px">Daily Tech Pulse</h4>
+              <p style="font-size:10px">טרנדים יומיים לפי שפות ה-GitHub שלך</p>
+              <div class="tooltip-badge" style="font-size:9px">? כיצד זה עובד</div>
+            </div>
+            <div class="kh-card" style="border-color: oklch(0.585 0.212 264.4 / 30%)">
+              <div class="kh-card-icon" style="background:oklch(0.585 0.212 264.4 / 15%); color:oklch(0.585 0.212 264.4)">🎓</div>
+              <h4 style="font-size:11px">הכנה לראיונות</h4>
+              <p style="font-size:10px">שאלות ותשובות לפי נושא</p>
+              <div class="tooltip-badge" style="font-size:9px">? כיצד להשתמש</div>
+            </div>
+            <div class="kh-card" style="border-color: oklch(0.75 0.16 60 / 30%)">
+              <div class="kh-card-icon" style="background:oklch(0.75 0.16 60 / 15%); color:oklch(0.75 0.16 60)">🔖</div>
+              <h4 style="font-size:11px">הסימניות שלי</h4>
+              <p style="font-size:10px">תכנים ששמרת לחזרה עתידית</p>
+              <div class="tooltip-badge" style="font-size:9px">3 פריטים שמורים</div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px">
+            <span style="font-size:11px; font-weight:700; color: oklch(0.65 0.15 211)">⚡ Daily Tech Pulse</span>
+          </div>
+          <div class="kh-card" style="flex-direction:row; display:flex; align-items:center; gap:10px">
+            <div class="kh-card-icon" style="background:oklch(0.585 0.212 264.4 / 15%); color:oklch(0.585 0.212 264.4); margin:0; flex-shrink:0">⚡</div>
+            <div>
+              <div class="tag tag-blue" style="font-size:9px">TypeScript</div>
+              <div style="font-size:11px; font-weight:700">TypeScript 5.4 — Type Predicates</div>
+              <div style="font-size:10px; color:#6b7280">רלוונטי לפרויקטי ה-Next.js שלך</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Option C: Current tabs kept, but enhanced -->
+    <div class="option-wrapper" data-group="kh" data-choice="kh-enhanced-tabs" data-label="Enhanced tabs with tooltips" style="flex:1">
+      <div class="option-label">C</div>
+      <div style="padding:12px">
+        <div class="tag tag-green">C — טאבים קיימים + שיפורים</div>
+        <div class="card" style="padding:14px; height:300px; overflow:hidden">
+          <div class="tabs" style="margin-bottom:10px">
+            <div class="tab active">⚡ Tech Pulse</div>
+            <div class="tab">🎓 ראיונות</div>
+            <div class="tab">🔖 סימניות</div>
+          </div>
+
+          <div style="background:oklch(0.65 0.15 211 / 8%); border:1px solid oklch(0.65 0.15 211 / 20%); border-radius:10px; padding:10px 12px; margin-bottom:10px; font-size:11px; color:#a0a0b8; display:flex; align-items:center; gap:8px;">
+            <span style="color:oklch(0.65 0.15 211)">ℹ</span>
+            <span>מנתח את שפות ה-GitHub שלך ומייצר טרנדים רלוונטיים. מתעדכן בכל לחיצה.</span>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px">
+            <div class="mock-input" style="flex:1; margin:0; font-size:11px">@username</div>
+            <button class="mock-btn btn-blue" style="font-size:11px; padding:7px 12px; flex-shrink:0">צור ✦</button>
+          </div>
+
+          <div class="kh-card" style="display:flex; align-items:flex-start; gap:10px">
+            <div class="kh-card-icon" style="background:oklch(0.585 0.212 264.4 / 15%); color:oklch(0.585 0.212 264.4); margin:0; flex-shrink:0; width:30px; height:30px; border-radius:8px; font-size:14px">⚡</div>
+            <div style="flex:1">
+              <div class="tag tag-blue" style="font-size:9px">TypeScript</div>
+              <div style="font-size:11px; font-weight:700; margin-bottom:2px">TypeScript 5.4 — Type Predicates</div>
+              <div style="font-size:10px; color:#6b7280; margin-bottom:6px">שיפור ב-narrowing שעוזר לקוד בטוח</div>
+              <div style="display:flex; gap:6px">
+                <button class="btn-ghost" style="font-size:10px; padding:4px 8px">🔖 שמור</button>
+                <span style="font-size:9px; color:#6b7280; align-self:center">← גלול לעוד 4 טרנדים</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip" style="margin-top:12px">
+    <span class="tip-icon">✦</span>
+    <span><strong>המלצה:</strong> אפשרות A (טאבים + גריד) — שומרת על החוויה המוכרת ומוסיפה כרטיסים גדולים יותר עם tooltips. אפשרות B מתאימה יותר לפלטפורמות עם תכנים רבים יותר.</span>
+  </div>
+</div>
+
+<div style="text-align:center; padding:24px 0 8px; font-size:11px; color:#4b5563">
+  לחץ על אפשרות כדי לסמן את בחירתך · LaunchPad UX Review 2026
+</div>
+
+</body>
+</html>

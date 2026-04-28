@@ -1,10 +1,10 @@
 'use client'
 
-import { useTransition, useState } from 'react'
-import { Zap, Bookmark, Loader2 } from 'lucide-react'
+import { useEffect, useTransition, useState, useCallback } from 'react'
+import { TrendingUp, Bookmark, RefreshCw } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { generateTechPulseAction } from '../actions'
+import { generateIndustryTrendsAction } from '../actions'
 import type { TechPulse, TechTrend } from '@/types/knowledge'
 
 interface TechPulsePanelProps {
@@ -25,6 +25,31 @@ function tagColor(tag: string): string {
   return TAG_COLORS[tag] ?? 'oklch(0.585 0.212 264.4)'
 }
 
+function TrendCardSkeleton() {
+  return (
+    <div
+      className="rounded-2xl p-5 border flex flex-col gap-3 animate-pulse"
+      style={{ background: 'var(--card)', borderColor: 'oklch(1 0 0 / 9%)' }}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex-1 space-y-2">
+          <div className="h-4 w-16 rounded-full" style={{ background: 'oklch(1 0 0 / 10%)' }} />
+          <div className="h-4 w-3/4 rounded" style={{ background: 'oklch(1 0 0 / 8%)' }} />
+        </div>
+      </div>
+      <div className="space-y-1.5">
+        <div className="h-3 w-full rounded" style={{ background: 'oklch(1 0 0 / 7%)' }} />
+        <div className="h-3 w-5/6 rounded" style={{ background: 'oklch(1 0 0 / 7%)' }} />
+        <div className="h-3 w-4/6 rounded" style={{ background: 'oklch(1 0 0 / 7%)' }} />
+      </div>
+      <div className="pt-1 border-t space-y-1.5" style={{ borderColor: 'oklch(1 0 0 / 8%)' }}>
+        <div className="h-3 w-2/3 rounded" style={{ background: 'oklch(1 0 0 / 6%)' }} />
+        <div className="h-3 w-1/2 rounded" style={{ background: 'oklch(1 0 0 / 6%)' }} />
+      </div>
+    </div>
+  )
+}
+
 function TrendCard({
   trend,
   onBookmark,
@@ -33,7 +58,7 @@ function TrendCard({
   onBookmark: (title: string, content: string) => void
 }) {
   const color = tagColor(trend.tag)
-  const bookmarkContent = `${trend.summary}\n\nלמה עכשיו: ${trend.whyNow}\n\nרלוונטיות: ${trend.relevance}`
+  const bookmarkContent = `${trend.summary}\n\nלמה עכשיו: ${trend.whyNow}\n\nהשפעה: ${trend.impact}`
 
   return (
     <div
@@ -76,9 +101,9 @@ function TrendCard({
         </p>
         <p className="text-xs">
           <span className="font-semibold" style={{ color: 'oklch(0.60 0.17 162)' }}>
-            רלוונטיות:{' '}
+            השפעה:{' '}
           </span>
-          <span className="text-muted-foreground">{trend.relevance}</span>
+          <span className="text-muted-foreground">{trend.impact}</span>
         </p>
       </div>
     </div>
@@ -89,63 +114,45 @@ export function TechPulsePanel({ onBookmark }: TechPulsePanelProps) {
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
   const [pulse, setPulse] = useState<TechPulse | null>(null)
-  const [githubUsername, setGithubUsername] = useState('')
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+  const loadTrends = useCallback(() => {
     setError(null)
-    const formData = new FormData(e.currentTarget)
     startTransition(async () => {
-      const result = await generateTechPulseAction(formData)
+      const result = await generateIndustryTrendsAction()
       if (result.ok) {
         setPulse(result.pulse)
       } else {
         setError(result.error)
       }
     })
-  }
+  }, [startTransition])
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadTrends()
+  }, [loadTrends])
 
   return (
     <div className="space-y-6">
-      <form onSubmit={handleSubmit} className="flex gap-3">
-        <div className="relative flex-1">
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-mono text-muted-foreground pointer-events-none">
-            @
-          </span>
-          <input
-            name="githubUsername"
-            type="text"
-            value={githubUsername}
-            onChange={(e) => setGithubUsername(e.target.value)}
-            placeholder="שם משתמש GitHub שלך"
-            dir="ltr"
-            autoComplete="off"
-            disabled={isPending}
-            className={cn(
-              'w-full rounded-xl border bg-transparent px-4 py-2.5 text-sm pr-8',
-              'placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring',
-              'disabled:opacity-50 transition-colors border-border'
-            )}
-          />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <TrendingUp className="w-5 h-5" style={{ color: 'oklch(0.65 0.15 211)' }} />
+          <h2 className="font-bold text-lg">מגמות ענף</h2>
+          <span className="text-xs text-muted-foreground">AI · תוכנה · טכנולוגיה</span>
         </div>
         <button
-          type="submit"
-          disabled={!githubUsername.trim() || isPending}
+          onClick={loadTrends}
+          disabled={isPending}
           className={cn(
-            buttonVariants({ size: 'default' }),
-            'gap-2 font-semibold shrink-0',
-            'disabled:opacity-40 disabled:cursor-not-allowed'
+            buttonVariants({ variant: 'ghost', size: 'sm' }),
+            'gap-1.5 text-muted-foreground hover:text-foreground disabled:opacity-40'
           )}
-          style={
-            githubUsername.trim() && !isPending
-              ? { background: 'oklch(0.65 0.15 211)', color: 'oklch(0.98 0 0)' }
-              : {}
-          }
+          title="רענן טרנדים"
         >
-          {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
-          {isPending ? 'מייצר...' : 'Daily Pulse'}
+          <RefreshCw className={cn('w-4 h-4', isPending && 'animate-spin')} />
+          <span className="text-xs">רענן</span>
         </button>
-      </form>
+      </div>
 
       {error && (
         <p
@@ -156,47 +163,23 @@ export function TechPulsePanel({ onBookmark }: TechPulsePanelProps) {
         </p>
       )}
 
-      {pulse && (
-        <div className="space-y-4">
-          <div className="flex items-center gap-2">
-            <Zap className="w-4 h-4" style={{ color: 'oklch(0.65 0.15 211)' }} />
-            <p className="text-sm font-semibold">
-              Daily Tech Pulse עבור{' '}
-              <span dir="ltr" className="font-mono">
-                @{pulse.username}
-              </span>
-            </p>
-            <span className="text-xs text-muted-foreground">
-              ({pulse.topLanguages.slice(0, 3).join(', ')})
-            </span>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            {pulse.trends.map((trend, i) => (
-              <TrendCard
-                key={i}
-                trend={trend}
-                onBookmark={(title, content) => onBookmark(title, content, 'trend')}
-              />
-            ))}
-          </div>
+      {isPending && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <TrendCardSkeleton key={i} />
+          ))}
         </div>
       )}
 
-      {!pulse && !isPending && !error && (
-        <div
-          className="rounded-2xl p-10 border flex flex-col items-center justify-center text-center gap-3"
-          style={{ background: 'var(--card)', borderColor: 'oklch(1 0 0 / 9%)' }}
-        >
-          <div
-            className="w-14 h-14 rounded-2xl flex items-center justify-center"
-            style={{ background: 'oklch(0.65 0.15 211 / 10%)' }}
-          >
-            <Zap className="w-7 h-7" style={{ color: 'oklch(0.65 0.15 211)' }} />
-          </div>
-          <p className="font-semibold">הזן שם משתמש GitHub לקבלת הטרנדים שלך</p>
-          <p className="text-muted-foreground text-sm max-w-xs">
-            ה-AI ינתח את שפות התכנות שלך ויציג 3 טרנדים רלוונטיים להיום
-          </p>
+      {pulse && !isPending && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {pulse.trends.map((trend, i) => (
+            <TrendCard
+              key={i}
+              trend={trend}
+              onBookmark={(title, content) => onBookmark(title, content, 'trend')}
+            />
+          ))}
         </div>
       )}
     </div>

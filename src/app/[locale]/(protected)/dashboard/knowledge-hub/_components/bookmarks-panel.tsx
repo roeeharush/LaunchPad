@@ -16,7 +16,7 @@ interface BookmarksPanelProps {
 
 const SOURCE_CONFIG = {
   trend: {
-    label: 'Tech Pulse',
+    label: 'מגמות ענף',
     icon: Zap,
     color: 'oklch(0.65 0.15 211)',
   },

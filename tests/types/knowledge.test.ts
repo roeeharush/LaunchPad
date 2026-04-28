@@ -14,21 +14,20 @@ describe('knowledge types', () => {
       title: 'Rust for Systems',
       summary: 'Rust continues to grow.',
       whyNow: 'Companies adopt it for performance.',
-      relevance: 'You already code in C++.',
+      impact: 'Systems engineers who learn Rust gain significant hiring advantage.',
       tag: 'Systems',
     }
     expect(trend.title).toBe('Rust for Systems')
     expect(trend.tag).toBe('Systems')
   })
 
-  it('TechPulse has username, topLanguages, and trends array', () => {
+  it('TechPulse has generatedAt and trends array', () => {
     const pulse: TechPulse = {
-      username: 'roeeharush',
-      topLanguages: ['TypeScript', 'Python'],
+      generatedAt: new Date().toISOString(),
       trends: [],
     }
-    expect(pulse.username).toBe('roeeharush')
-    expect(pulse.topLanguages).toHaveLength(2)
+    expect(pulse.generatedAt).toBeTruthy()
+    expect(pulse.trends).toHaveLength(0)
   })
 
   it('InterviewQA has question, answer, difficulty', () => {

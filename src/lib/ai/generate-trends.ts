@@ -1,5 +1,4 @@
 import Anthropic from '@anthropic-ai/sdk'
-import type { GitHubProfileData } from '@/types/profile'
 import type { TechPulse } from '@/types/knowledge'
 
 let _client: Anthropic | null = null
@@ -24,8 +23,7 @@ export function parseTechPulse(raw: string): TechPulse {
   if (
     typeof parsed !== 'object' ||
     parsed === null ||
-    !('username' in parsed) ||
-    !('topLanguages' in parsed) ||
+    !('generatedAt' in parsed) ||
     !('trends' in parsed)
   ) {
     throw new Error('מבנה תשובת ה-AI שגוי — חסרים שדות נדרשים')
@@ -34,45 +32,44 @@ export function parseTechPulse(raw: string): TechPulse {
   return parsed as TechPulse
 }
 
-export async function generateTechPulse(githubData: GitHubProfileData): Promise<TechPulse> {
-  const topLanguages = Object.keys(githubData.topLanguages).slice(0, 5)
-  const topRepoNames = githubData.topRepos
-    .slice(0, 3)
-    .map((r) => r.name)
-    .join(', ')
+export async function generateIndustryTrends(): Promise<TechPulse> {
+  const now = new Date().toISOString()
 
-  const prompt = `אתה מומחה טכנולוגיה ומדריך קריירה בתעשיית ההייטק. צור עבור המפתח דוח טרנדים יומי מותאם אישית.
-
-פרטי המפתח:
-- שם משתמש GitHub: ${githubData.login}
-- שפות תכנות עיקריות: ${topLanguages.join(', ') || 'לא ידוע'}
-- פרויקטים בולטים: ${topRepoNames || 'לא ידוע'}
+  const prompt = `אתה מומחה טכנולוגיה ותעשיית ההייטק עם יד על הדופק של הטרנדים הכי חמים ב-2026. צור דוח טרנדים עשיר ומעמיק של תעשיית הטכנולוגיה.
 
 החזר אך ורק JSON תקני בפורמט הבא, ללא טקסט נוסף:
 {
-  "username": "${githubData.login}",
-  "topLanguages": ${JSON.stringify(topLanguages)},
+  "generatedAt": "${now}",
   "trends": [
     {
-      "title": "<שם הטרנד, בעברית, קצר וברור>",
-      "summary": "<תיאור קצר של הטרנד — 2-3 משפטים בעברית>",
-      "whyNow": "<למה הטרנד הזה חם דווקא עכשיו — משפט אחד בעברית>",
-      "relevance": "<למה הטרנד רלוונטי למפתח הזה עם השפות שלו — משפט אחד בעברית>",
+      "title": "<שם הטרנד, בעברית, קצר וחד>",
+      "summary": "<תיאור מעמיק של הטרנד — 3-4 משפטים בעברית, עם פרטים קונקרטיים>",
+      "whyNow": "<למה הטרנד הזה חם דווקא עכשיו — עם נתון או אירוע ספציפי, משפט אחד בעברית>",
+      "impact": "<מה ההשפעה של הטרנד על מפתחים ועל שוק העבודה הטכנולוגי — משפט אחד בעברית>",
       "tag": "<קטגוריה קצרה באנגלית: AI/ML | Web | Systems | DevOps | Security | Mobile | Data>"
     }
   ]
 }
 
-צור בדיוק 3 טרנדים. כל טרנד חייב להיות:
-1. רלוונטי לשפות התכנות של המפתח
-2. חדש ומעניין ב-2026
-3. בעל ערך מעשי לחיפוש עבודה
+צור בדיוק 6 טרנדים. כיסוי נדרש:
+1. טרנד בתחום AI/ML (כלי AI חדשים, מודלים, שימושים בפיתוח)
+2. טרנד בתחום Web (פריימוורקים, ביצועים, סטנדרטים חדשים)
+3. טרנד בתחום Systems / Backend
+4. טרנד בתחום DevOps / Cloud
+5. טרנד בתחום Security
+6. טרנד נוסף חופשי (Mobile, Data, Open Source, או כל תחום מעניין אחר)
+
+כל טרנד חייב להיות:
+- עדכני ל-2026 ומבוסס על מציאות תעשייתית אמיתית
+- עם תוכן עשיר ומפורט, לא כותרות ריקות
+- כתוב בעברית מקצועית וזורמת
+- בעל ערך מעשי לאנשי טכנולוגיה
 
 החזר JSON בלבד.`
 
   const message = await getClient().messages.create({
     model: 'claude-sonnet-4-6',
-    max_tokens: 1500,
+    max_tokens: 2500,
     messages: [{ role: 'user', content: prompt }],
   })
 

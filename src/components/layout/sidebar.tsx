@@ -63,7 +63,11 @@ const navItems: { href: string; icon: typeof LayoutDashboard; key: NavKey; color
   { href: '/dashboard/job-analyzer', icon: Wand2, key: 'analyzer', color: 'oklch(0.58 0.21 291)' },
 ]
 
-export function Sidebar() {
+interface SidebarProps {
+  onNavigate?: () => void
+}
+
+export function Sidebar({ onNavigate }: SidebarProps) {
   const t = useTranslations('nav')
   const pathname = usePathname()
 
@@ -104,6 +108,7 @@ export function Sidebar() {
             <Link
               key={key}
               href={href}
+              onClick={onNavigate}
               className={cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium',
                 'transition-all duration-150',

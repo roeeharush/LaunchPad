@@ -11,15 +11,43 @@ interface InterviewPrepPanelProps {
   onBookmark: (title: string, content: string, source: 'trend' | 'interview') => void
 }
 
-const QUICK_TOPICS = [
-  'React Hooks',
-  'System Design',
-  'SQL Joins',
-  'TypeScript Generics',
-  'Git Workflow',
-  'Node.js Event Loop',
-  'REST vs GraphQL',
-  'Docker Basics',
+const CATEGORIES = [
+  {
+    id: 'frontend',
+    label: 'פרונט-אנד',
+    color: 'oklch(0.585 0.212 264.4)',
+    topics: ['React Hooks', 'TypeScript Generics', 'CSS & DOM', 'Web Performance'],
+  },
+  {
+    id: 'backend',
+    label: 'בק-אנד',
+    color: 'oklch(0.60 0.17 162)',
+    topics: ['Node.js Event Loop', 'REST vs GraphQL', 'SQL Joins', 'Database Design'],
+  },
+  {
+    id: 'system-design',
+    label: 'System Design',
+    color: 'oklch(0.58 0.21 291)',
+    topics: ['System Design Basics', 'Microservices', 'Caching Strategies', 'Load Balancing'],
+  },
+  {
+    id: 'algorithms',
+    label: 'אלגוריתמים',
+    color: 'oklch(0.75 0.16 60)',
+    topics: ['Data Structures', 'Sorting Algorithms', 'Dynamic Programming', 'Graph Algorithms'],
+  },
+  {
+    id: 'devops',
+    label: 'DevOps',
+    color: 'oklch(0.65 0.18 140)',
+    topics: ['Docker Basics', 'Git Workflow', 'CI/CD Pipelines', 'Cloud Basics'],
+  },
+  {
+    id: 'behavioral',
+    label: 'Behavioral',
+    color: 'oklch(0.62 0.22 27)',
+    topics: ['STAR Method', 'Leadership Stories', 'Conflict Resolution', 'Teamwork'],
+  },
 ]
 
 const DIFFICULTY_CONFIG = {
@@ -102,6 +130,11 @@ export function InterviewPrepPanel({ onBookmark }: InterviewPrepPanelProps) {
   const [error, setError] = useState<string | null>(null)
   const [prepResult, setPrepResult] = useState<InterviewPrepResult | null>(null)
   const [topic, setTopic] = useState('')
+  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0]!.id)
+
+  // activeCategory is always set to a valid category id, so find will never return undefined
+
+  const currentCategory = CATEGORIES.find((c) => c.id === activeCategory)!
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -123,7 +156,66 @@ export function InterviewPrepPanel({ onBookmark }: InterviewPrepPanelProps) {
 
   return (
     <div className="space-y-6">
+      {/* Category tabs */}
+      <div className="flex flex-wrap gap-2">
+        {CATEGORIES.map((cat) => {
+          const isActive = activeCategory === cat.id
+          return (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => {
+                setActiveCategory(cat.id)
+                setTopic('')
+              }}
+              className="text-sm px-4 py-2 rounded-xl border font-medium transition-all duration-150"
+              style={
+                isActive
+                  ? {
+                      background: cat.color.replace(')', ' / 15%)'),
+                      borderColor: cat.color.replace(')', ' / 40%)'),
+                      color: cat.color,
+                    }
+                  : { borderColor: 'oklch(1 0 0 / 12%)', color: 'oklch(0.7 0 0)' }
+              }
+            >
+              {cat.label}
+            </button>
+          )
+        })}
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Topic chips for active category */}
+        <div className="flex flex-wrap gap-2">
+          {currentCategory.topics.map((t) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => handleQuickTopic(t)}
+              disabled={isPending}
+              className={cn(
+                'text-xs px-3 py-1.5 rounded-full border transition-all duration-150',
+                topic === t
+                  ? 'border-primary/50 text-foreground'
+                  : 'border-border text-muted-foreground hover:text-foreground hover:border-border/70'
+              )}
+              style={
+                topic === t
+                  ? {
+                      background: currentCategory.color.replace(')', ' / 15%)'),
+                      borderColor: currentCategory.color.replace(')', ' / 40%)'),
+                      color: currentCategory.color,
+                    }
+                  : {}
+              }
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+
+        {/* Free-text input + submit */}
         <div className="flex gap-3">
           <input
             name="topic"
@@ -148,7 +240,7 @@ export function InterviewPrepPanel({ onBookmark }: InterviewPrepPanelProps) {
             )}
             style={
               topic.trim() && !isPending
-                ? { background: 'oklch(0.585 0.212 264.4)', color: 'oklch(0.98 0 0)' }
+                ? { background: currentCategory.color, color: 'oklch(0.98 0 0)' }
                 : {}
             }
           >
@@ -159,26 +251,6 @@ export function InterviewPrepPanel({ onBookmark }: InterviewPrepPanelProps) {
             )}
             {isPending ? 'מייצר...' : 'צור שאלות'}
           </button>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          {QUICK_TOPICS.map((t) => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => handleQuickTopic(t)}
-              disabled={isPending}
-              className={cn(
-                'text-xs px-3 py-1.5 rounded-full border transition-all duration-150',
-                topic === t
-                  ? 'border-primary/50 text-foreground'
-                  : 'border-border text-muted-foreground hover:text-foreground hover:border-border/70'
-              )}
-              style={topic === t ? { background: 'oklch(0.585 0.212 264.4 / 15%)' } : {}}
-            >
-              {t}
-            </button>
-          ))}
         </div>
       </form>
 
@@ -194,10 +266,10 @@ export function InterviewPrepPanel({ onBookmark }: InterviewPrepPanelProps) {
       {prepResult && (
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <GraduationCap className="w-4 h-4" style={{ color: 'oklch(0.585 0.212 264.4)' }} />
+            <GraduationCap className="w-4 h-4" style={{ color: currentCategory.color }} />
             <p className="text-sm font-semibold">
               {prepResult.questions.length} שאלות ראיון על{' '}
-              <span style={{ color: 'oklch(0.585 0.212 264.4)' }}>{prepResult.topic}</span>
+              <span style={{ color: currentCategory.color }}>{prepResult.topic}</span>
             </p>
           </div>
           <div className="space-y-2">
@@ -220,11 +292,11 @@ export function InterviewPrepPanel({ onBookmark }: InterviewPrepPanelProps) {
         >
           <div
             className="w-14 h-14 rounded-2xl flex items-center justify-center"
-            style={{ background: 'oklch(0.585 0.212 264.4 / 10%)' }}
+            style={{ background: currentCategory.color.replace(')', ' / 10%)') }}
           >
-            <GraduationCap className="w-7 h-7" style={{ color: 'oklch(0.585 0.212 264.4)' }} />
+            <GraduationCap className="w-7 h-7" style={{ color: currentCategory.color }} />
           </div>
-          <p className="font-semibold">הזן נושא לקבלת שאלות ראיון</p>
+          <p className="font-semibold">בחר נושא או הזן נושא חופשי</p>
           <p className="text-muted-foreground text-sm max-w-xs">
             ה-AI ייצר 5 שאלות ראיון עם תשובות מפורטות, מותאמות לרמות קושי שונות
           </p>

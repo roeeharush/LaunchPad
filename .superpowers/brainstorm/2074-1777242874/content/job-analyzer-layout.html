@@ -1,0 +1,374 @@
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', 'Rubik', system-ui, sans-serif; }
+
+  .page-title {
+    font-size: 1.1rem; font-weight: 700; margin-bottom: 4px;
+    color: #e2e8f0;
+  }
+  .page-sub {
+    font-size: 0.82rem; color: #94a3b8; margin-bottom: 24px;
+  }
+
+  /* ── Dark glassmorphism variables ── */
+  :root {
+    --bg: #0f1117;
+    --card: #181d2a;
+    --card2: #1e2538;
+    --border: rgba(255,255,255,0.08);
+    --indigo: oklch(0.585 0.212 264.4);
+    --violet: oklch(0.58 0.21 291);
+    --amber: oklch(0.75 0.16 60);
+    --emerald: oklch(0.60 0.17 162);
+    --sky: oklch(0.65 0.15 211);
+    --text: #e2e8f0;
+    --muted: #64748b;
+  }
+
+  .layout-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #64748b;
+    margin-bottom: 14px;
+  }
+  .layout-label span {
+    display: inline-block; width: 20px; height: 20px; border-radius: 6px;
+    background: rgba(99,102,241,0.2); color: #818cf8;
+    font-size: 0.7rem; font-weight: 800;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+
+  /* ── OPTION A — 3 column equal ── */
+  .mock-shell {
+    background: #0f1117;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    direction: rtl;
+  }
+
+  .mock-page-header {
+    margin-bottom: 20px;
+  }
+  .mock-page-title {
+    font-size: 1.3rem; font-weight: 800; color: #e2e8f0;
+  }
+  .mock-page-sub { font-size: 0.78rem; color: #64748b; margin-top: 3px; }
+
+  .mock-textarea {
+    width: 100%; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.03); padding: 14px 16px;
+    font-size: 0.8rem; color: #94a3b8; min-height: 80px;
+    display: flex; align-items: flex-start;
+    margin-bottom: 10px;
+    direction: rtl;
+  }
+
+  .mock-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 18px; border-radius: 10px;
+    font-size: 0.8rem; font-weight: 700; color: #fff;
+    background: oklch(0.585 0.212 264.4);
+    margin-bottom: 20px;
+    border: none; cursor: pointer;
+  }
+
+  /* Cards grid */
+  .cards-3col {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  }
+  .cards-featured {
+    display: grid; grid-template-columns: 3fr 2fr; gap: 14px;
+  }
+  .cards-right-stack {
+    display: flex; flex-direction: column; gap: 14px;
+  }
+
+  .mock-card {
+    background: #181d2a;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 16px;
+    direction: rtl;
+  }
+
+  .card-header {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+  }
+  .card-icon {
+    width: 32px; height: 32px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+  }
+  .card-title { font-size: 0.88rem; font-weight: 700; color: #e2e8f0; }
+  .card-sub { font-size: 0.72rem; color: #64748b; margin-top: 1px; }
+
+  /* Cover letter card */
+  .lang-toggle {
+    display: flex; gap: 6px; margin-bottom: 10px;
+  }
+  .lang-btn {
+    padding: 4px 10px; border-radius: 8px; font-size: 0.72rem; font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.1); cursor: pointer;
+    color: #94a3b8; background: transparent;
+  }
+  .lang-btn.active {
+    background: rgba(99,102,241,0.2); color: #818cf8;
+    border-color: rgba(99,102,241,0.3);
+  }
+  .letter-text {
+    font-size: 0.77rem; line-height: 1.7; color: #94a3b8;
+    direction: rtl; text-align: right;
+  }
+  .letter-text-en { direction: ltr; text-align: left; }
+
+  .copy-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    margin-top: 10px; padding: 5px 12px; border-radius: 8px;
+    font-size: 0.72rem; font-weight: 600;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08); color: #94a3b8;
+    cursor: pointer;
+  }
+
+  /* Skills card */
+  .skill-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    direction: rtl;
+  }
+  .skill-item:last-child { border-bottom: none; }
+  .skill-num {
+    width: 22px; height: 22px; border-radius: 7px; shrink: 0;
+    background: rgba(234,179,8,0.15); color: oklch(0.75 0.16 60);
+    font-size: 0.7rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .skill-name { font-size: 0.8rem; font-weight: 700; color: #e2e8f0; }
+  .skill-why { font-size: 0.72rem; color: #64748b; margin-top: 2px; }
+
+  /* Interview card */
+  .qa-item {
+    padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    direction: rtl;
+  }
+  .qa-item:last-child { border-bottom: none; }
+  .qa-q {
+    font-size: 0.8rem; font-weight: 700; color: #e2e8f0; margin-bottom: 5px;
+  }
+  .qa-a {
+    font-size: 0.73rem; line-height: 1.6; color: #64748b;
+  }
+  .qa-badge {
+    display: inline-block; padding: 2px 7px; border-radius: 6px;
+    font-size: 0.65rem; font-weight: 700;
+    background: rgba(96,165,250,0.12); color: #60a5fa;
+    margin-bottom: 5px;
+  }
+
+  /* summary chip */
+  .match-chip {
+    display: flex; align-items: flex-start; gap: 8px;
+    background: rgba(99,102,241,0.08);
+    border: 1px solid rgba(99,102,241,0.18);
+    border-radius: 12px; padding: 10px 14px;
+    margin-bottom: 16px; font-size: 0.78rem; color: #94a3b8;
+    direction: rtl; text-align: right;
+  }
+  .match-icon { color: oklch(0.585 0.212 264.4); font-size: 1rem; flex-shrink: 0; }
+
+  /* option wrappers */
+  .opt-wrapper {
+    padding: 16px;
+    border-radius: 16px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .opt-wrapper:hover { border-color: rgba(99,102,241,0.3); }
+  .opt-wrapper.selected { border-color: oklch(0.585 0.212 264.4); }
+</style>
+
+<h2>Job Analyzer v2 — Card Layout</h2>
+<p class="subtitle">בחר את פריסת הכרטיסיות שתציג עברית RTL — Cover Letter עם טוגל שפה, 5 כישורים, ו-3 שאלות ראיון</p>
+
+<div class="cards" style="gap:24px; flex-direction: column; display: flex;">
+
+  <!-- OPTION A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)" style="padding:0; overflow:hidden;">
+    <div style="padding: 16px 20px 0;">
+      <div class="layout-label"><span>A</span> שלושה כרטיסים שווים — Three Equal Columns</div>
+    </div>
+    <div style="padding: 16px 20px 20px;">
+      <div class="mock-shell">
+        <div class="match-chip">
+          <span class="match-icon">✦</span>
+          <span>המשרה מתאימה מאוד לפרופיל שלך. זיהינו 4 מתוך 5 כישורים קריטיים בקורות החיים שלך.</span>
+        </div>
+        <div class="cards-3col">
+          <!-- Cover Letter -->
+          <div class="mock-card">
+            <div class="card-header">
+              <div class="card-icon" style="background:rgba(99,102,241,0.15); color:#818cf8;">📄</div>
+              <div>
+                <div class="card-title">מכתב פנייה</div>
+                <div class="card-sub">מותאם אישית למשרה</div>
+              </div>
+            </div>
+            <div class="lang-toggle">
+              <button class="lang-btn active">עברית</button>
+              <button class="lang-btn">English</button>
+            </div>
+            <div class="letter-text">
+              <p>לצוות הגיוס של חברת Wix,</p>
+              <p style="margin-top:6px;">אני מגיש/ה בקשה לתפקיד Frontend Developer. לאורך השנה האחרונה פיתחתי ניסיון עמוק ב-React ו-TypeScript, כולל פרויקט SaaS מלא שכלל אינטגרציה עם Supabase...</p>
+            </div>
+            <button class="copy-btn">📋 העתק</button>
+          </div>
+          <!-- Skills -->
+          <div class="mock-card">
+            <div class="card-header">
+              <div class="card-icon" style="background:rgba(234,179,8,0.15); color:#f59e0b;">⭐</div>
+              <div>
+                <div class="card-title">5 כישורים קריטיים</div>
+                <div class="card-sub">חובה להכין לפני הראיון</div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-num">1</div>
+              <div><div class="skill-name">React 18 + TypeScript</div><div class="skill-why">מוזכר 4× במשרה</div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-num">2</div>
+              <div><div class="skill-name">System Design</div><div class="skill-why">נדרש לתפקיד Senior</div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-num">3</div>
+              <div><div class="skill-name">CI/CD Pipelines</div><div class="skill-why">חסר בפרופיל שלך</div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-num">4</div>
+              <div><div class="skill-name">Node.js + Express</div><div class="skill-why">מוזכר כיתרון</div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-num">5</div>
+              <div><div class="skill-name">Testing (Vitest/Jest)</div><div class="skill-why">דרישת חובה</div></div>
+            </div>
+          </div>
+          <!-- Interview -->
+          <div class="mock-card">
+            <div class="card-header">
+              <div class="card-icon" style="background:rgba(96,165,250,0.15); color:#60a5fa;">💬</div>
+              <div>
+                <div class="card-title">3 שאלות ראיון</div>
+                <div class="card-sub">עם תשובות מוצעות</div>
+              </div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-badge">Technical</div>
+              <div class="qa-q">איך תתמודד עם ביצועים גרועים ב-React?</div>
+              <div class="qa-a">אתייחס ל-useMemo, useCallback, ו-React.memo. אוסיף דוגמה מהפרויקט...</div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-badge">Behavioral</div>
+              <div class="qa-q">תאר/י סיטואציה שהתמודדת עם deadline צפוף</div>
+              <div class="qa-a">אשתמש בשיטת STAR: Situation, Task, Action, Result...</div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-badge">System Design</div>
+              <div class="qa-q">עצב/י ארכיטקטורת Frontend ל-SaaS</div>
+              <div class="qa-a">אתחיל מחלוקת לשכבות: UI, State, API Layer...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="padding: 0 20px 16px;">
+      <h3>תצוגה מקבילה מלאה</h3>
+      <p>כל המידע גלוי בבת אחת. מתאים למסכים רחבים. דורש גלילה בכרטיסים.</p>
+    </div>
+  </div>
+
+  <!-- OPTION B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)" style="padding:0; overflow:hidden;">
+    <div style="padding: 16px 20px 0;">
+      <div class="layout-label"><span>B</span> מכתב פנייה מורחב + צד ימין — Featured Cover Letter</div>
+    </div>
+    <div style="padding: 16px 20px 20px;">
+      <div class="mock-shell">
+        <div class="match-chip">
+          <span class="match-icon">✦</span>
+          <span>המשרה מתאימה מאוד לפרופיל שלך. זיהינו 4 מתוך 5 כישורים קריטיים בקורות החיים שלך.</span>
+        </div>
+        <div class="cards-featured">
+          <!-- Featured Cover Letter -->
+          <div class="mock-card">
+            <div class="card-header">
+              <div class="card-icon" style="background:rgba(99,102,241,0.15); color:#818cf8;">📄</div>
+              <div>
+                <div class="card-title">מכתב פנייה מותאם</div>
+                <div class="card-sub">מבוסס על קורות החיים שלך + דרישות המשרה</div>
+              </div>
+            </div>
+            <div class="lang-toggle">
+              <button class="lang-btn active">🇮🇱 עברית</button>
+              <button class="lang-btn">🇺🇸 English</button>
+            </div>
+            <div class="letter-text">
+              <p>לצוות הגיוס של חברת Wix,</p>
+              <p style="margin-top:8px;">אני מגיש/ה בקשה לתפקיד Frontend Developer. לאורך השנה האחרונה פיתחתי ניסיון עמוק ב-React ו-TypeScript, כולל פרויקט SaaS מלא שכלל אינטגרציה עם Supabase ו-Stripe. הפרויקט קיבל 400+ כוכבים ב-GitHub.</p>
+              <p style="margin-top:8px;">בנוסף לניסיון הטכני, השתתפתי בהאקתון שבו עבדנו בצוות של 4 אנשים תחת לחץ זמן ופיתחנו MVP תוך 24 שעות.</p>
+              <p style="margin-top:8px;">אשמח להתראיין ולהוכיח את יכולותיי.</p>
+              <p style="margin-top:8px;">בברכה,<br/>שם מלא</p>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:12px;">
+              <button class="copy-btn">📋 העתק</button>
+              <button class="copy-btn" style="background:rgba(99,102,241,0.1); border-color:rgba(99,102,241,0.2); color:#818cf8;">✏️ ערוך</button>
+            </div>
+          </div>
+          <!-- Right stack -->
+          <div class="cards-right-stack">
+            <div class="mock-card">
+              <div class="card-header">
+                <div class="card-icon" style="background:rgba(234,179,8,0.15); color:#f59e0b;">⭐</div>
+                <div><div class="card-title">5 כישורים קריטיים</div></div>
+              </div>
+              <div class="skill-item"><div class="skill-num">1</div><div><div class="skill-name">React 18 + TypeScript</div><div class="skill-why">מוזכר 4× במשרה</div></div></div>
+              <div class="skill-item"><div class="skill-num">2</div><div><div class="skill-name">System Design</div><div class="skill-why">נדרש לתפקיד Senior</div></div></div>
+              <div class="skill-item"><div class="skill-num">3</div><div><div class="skill-name">CI/CD Pipelines</div><div class="skill-why">חסר בפרופיל שלך</div></div></div>
+              <div class="skill-item"><div class="skill-num">4</div><div><div class="skill-name">Node.js + Express</div><div class="skill-why">מוזכר כיתרון</div></div></div>
+              <div class="skill-item"><div class="skill-num">5</div><div><div class="skill-name">Testing (Vitest/Jest)</div><div class="skill-why">דרישת חובה</div></div></div>
+            </div>
+            <div class="mock-card">
+              <div class="card-header">
+                <div class="card-icon" style="background:rgba(96,165,250,0.15); color:#60a5fa;">💬</div>
+                <div><div class="card-title">3 שאלות ראיון</div></div>
+              </div>
+              <div class="qa-item">
+                <div class="qa-badge">Technical</div>
+                <div class="qa-q">איך תתמודד עם ביצועים גרועים ב-React?</div>
+                <div class="qa-a">useMemo, useCallback, React.memo — עם דוגמה מהפרויקט שלך...</div>
+              </div>
+              <div class="qa-item">
+                <div class="qa-badge">Behavioral</div>
+                <div class="qa-q">תאר/י התמודדות עם deadline צפוף</div>
+                <div class="qa-a">שיטת STAR: Situation → Task → Action → Result...</div>
+              </div>
+              <div class="qa-item">
+                <div class="qa-badge">System Design</div>
+                <div class="qa-q">עצב/י ארכיטקטורת Frontend ל-SaaS</div>
+                <div class="qa-a">חלוקה לשכבות: UI, State, API Layer...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="padding: 0 20px 16px;">
+      <h3>מכתב פנייה דומיננטי + ימין מקובץ</h3>
+      <p>מכתב הפנייה תופס 60% מהמסך — הכי שימושי. כישורים ושאלות גלויים אך קומפקטיים.</p>
+    </div>
+  </div>
+
+</div>

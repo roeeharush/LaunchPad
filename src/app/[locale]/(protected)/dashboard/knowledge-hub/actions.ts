@@ -1,7 +1,6 @@
 'use server'
 
-import { fetchGitHubProfile } from '@/lib/github/fetch-profile'
-import { generateTechPulse } from '@/lib/ai/generate-trends'
+import { generateIndustryTrends } from '@/lib/ai/generate-trends'
 import { generateInterviewPrep } from '@/lib/ai/generate-interview-prep'
 import { createClient } from '@/lib/supabase/server'
 import type { TechPulse, InterviewPrepResult, KnowledgeBookmark } from '@/types/knowledge'
@@ -18,28 +17,15 @@ export type BookmarkResult =
 
 export type DeleteResult = { ok: boolean; error?: string }
 
-export async function generateTechPulseAction(formData: FormData): Promise<TechPulseResult> {
+export async function generateIndustryTrendsAction(): Promise<TechPulseResult> {
   const supabase = await createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
   if (!user) return { ok: false, error: 'לא מחובר למערכת' }
 
-  const githubUsername = ((formData.get('githubUsername') as string | null) ?? '').trim()
-  if (!githubUsername) return { ok: false, error: 'יש להזין שם משתמש GitHub' }
-  if (!/^[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,37}[a-zA-Z0-9])?$/.test(githubUsername)) {
-    return { ok: false, error: 'שם משתמש GitHub אינו תקין' }
-  }
-
-  let githubData
   try {
-    githubData = await fetchGitHubProfile(githubUsername)
-  } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : 'שגיאה בגישה ל-GitHub' }
-  }
-
-  try {
-    const pulse = await generateTechPulse(githubData)
+    const pulse = await generateIndustryTrends()
     return { ok: true, pulse }
   } catch {
     return { ok: false, error: 'שגיאה ביצירת הטרנדים. נסה שוב.' }

@@ -1,0 +1,316 @@
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .lbl {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #64748b; margin-bottom: 14px;
+  }
+  .lbl span {
+    width: 20px; height: 20px; border-radius: 6px;
+    background: rgba(99,102,241,0.2); color: #818cf8;
+    font-size: 0.7rem; font-weight: 800;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+
+  .shell {
+    background: #0f1117; border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+    direction: rtl; overflow: hidden;
+  }
+
+  /* ── Shared tab bar ── */
+  .tab-bar {
+    display: flex; gap: 6px; padding: 14px 18px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .tab {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: 10px 10px 0 0;
+    font-size: 0.8rem; font-weight: 600; color: #4b5563;
+  }
+  .tab.active {
+    background: rgba(234,179,8,0.1); color: #f59e0b;
+    border: 1px solid rgba(234,179,8,0.18); border-bottom: none;
+  }
+
+  /* ── OPTION A: Minimal centered ── */
+  .empty-center {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center;
+    padding: 56px 32px; gap: 20px;
+  }
+  .empty-icon-wrap {
+    position: relative; width: 80px; height: 80px;
+  }
+  .empty-icon-bg {
+    width: 80px; height: 80px; border-radius: 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+  }
+  .empty-lock {
+    position: absolute; bottom: -4px; left: -4px;
+    width: 26px; height: 26px; border-radius: 8px;
+    background: #0f1117; border: 2px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center; font-size: 0.75rem;
+  }
+  .empty-title { font-size: 1.2rem; font-weight: 800; color: #e2e8f0; }
+  .empty-sub { font-size: 0.83rem; color: #64748b; line-height: 1.65; max-width: 300px; }
+  .upload-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 24px; border-radius: 12px;
+    font-size: 0.88rem; font-weight: 800; color: white;
+    background: oklch(0.585 0.212 264.4);
+    box-shadow: 0 0 0 1px rgba(99,102,241,0.25), 0 4px 20px rgba(99,102,241,0.25);
+    border: none; cursor: pointer; margin-top: 4px;
+  }
+  .skip-link {
+    font-size: 0.75rem; color: #374151; cursor: pointer;
+    text-decoration: underline; text-decoration-color: #374151;
+  }
+
+  /* ── OPTION B: Unlock panel ── */
+  .empty-b-wrap { padding: 28px 24px; }
+
+  .empty-b-hero {
+    display: flex; align-items: flex-start; gap: 18px;
+    padding: 20px 22px; border-radius: 16px; margin-bottom: 20px;
+    background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(124,58,237,0.06) 100%);
+    border: 1px solid rgba(99,102,241,0.18);
+  }
+  .hero-icon-box {
+    width: 56px; height: 56px; border-radius: 16px; flex-shrink: 0;
+    background: rgba(99,102,241,0.15);
+    display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+  }
+  .hero-text {}
+  .hero-title { font-size: 1.05rem; font-weight: 800; color: #e2e8f0; margin-bottom: 5px; }
+  .hero-desc { font-size: 0.8rem; color: #94a3b8; line-height: 1.6; }
+
+  .unlock-label {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #4b5563; margin-bottom: 10px;
+  }
+  .unlock-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px;
+  }
+  .unlock-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px; border-radius: 12px;
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+  }
+  .unlock-item-icon {
+    width: 30px; height: 30px; border-radius: 9px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
+  }
+  .unlock-item-name { font-size: 0.78rem; font-weight: 700; color: #e2e8f0; }
+  .unlock-item-sub { font-size: 0.68rem; color: #4b5563; margin-top: 1px; }
+  .lock-chip {
+    margin-right: auto; padding: 2px 7px; border-radius: 6px;
+    font-size: 0.62rem; font-weight: 800;
+    background: rgba(255,255,255,0.04); color: #374151; flex-shrink: 0;
+  }
+
+  .upload-area {
+    border: 1.5px dashed rgba(99,102,241,0.3);
+    border-radius: 14px; padding: 20px;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 8px; background: rgba(99,102,241,0.04);
+    cursor: pointer; transition: border-color 0.15s, background 0.15s;
+  }
+  .upload-area:hover { border-color: rgba(99,102,241,0.5); background: rgba(99,102,241,0.07); }
+  .upload-area-icon { font-size: 1.5rem; }
+  .upload-area-title { font-size: 0.88rem; font-weight: 800; color: #818cf8; }
+  .upload-area-sub { font-size: 0.75rem; color: #4b5563; }
+  .upload-formats {
+    display: flex; gap: 6px; margin-top: 2px;
+  }
+  .fmt-chip {
+    padding: 2px 8px; border-radius: 6px; font-size: 0.65rem; font-weight: 700;
+    background: rgba(255,255,255,0.05); color: #64748b;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* ── OPTION C: Inline banner ── */
+  .inline-banner {
+    margin: 0; padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(124,58,237,0.05));
+    border-bottom: 1px solid rgba(99,102,241,0.15);
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .banner-left { display: flex; align-items: center; gap: 10px; }
+  .banner-icon {
+    width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+    background: rgba(99,102,241,0.15);
+    display: flex; align-items: center; justify-content: center; font-size: 1rem;
+  }
+  .banner-title { font-size: 0.85rem; font-weight: 800; color: #e2e8f0; }
+  .banner-sub { font-size: 0.73rem; color: #64748b; margin-top: 1px; }
+  .banner-btn {
+    padding: 8px 16px; border-radius: 10px; flex-shrink: 0;
+    font-size: 0.78rem; font-weight: 800; color: white;
+    background: oklch(0.585 0.212 264.4); border: none; cursor: pointer;
+    white-space: nowrap;
+  }
+  .ghost-content {
+    padding: 20px 18px; filter: blur(3px); opacity: 0.3; pointer-events: none;
+  }
+  .ghost-row {
+    height: 56px; border-radius: 12px;
+    background: rgba(255,255,255,0.04); margin-bottom: 8px;
+  }
+  .ghost-row:nth-child(2) { opacity: 0.7; }
+  .ghost-row:nth-child(3) { opacity: 0.4; }
+</style>
+
+<h2>Empty State — Job Search ללא קורות חיים</h2>
+<p class="subtitle">כיצד מנחים את המשתמש להעלות קורות חיים כדי לפתוח את חיפוש העבודה</p>
+
+<div class="cards" style="display:flex;flex-direction:column;gap:24px;">
+
+  <!-- OPTION A: Minimal centered -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)" style="padding:0;overflow:hidden;">
+    <div style="padding:16px 20px 0;">
+      <div class="lbl"><span>A</span> Empty State מינימלי — Centered Icon + CTA</div>
+    </div>
+    <div style="padding:12px 20px 20px;">
+      <div class="shell">
+        <div class="tab-bar">
+          <div class="tab active">💼 גילוי משרות</div>
+          <div class="tab">📋 טראקר</div>
+        </div>
+        <div class="empty-center">
+          <div class="empty-icon-wrap">
+            <div class="empty-icon-bg" style="background:rgba(234,179,8,0.1);">💼</div>
+            <div class="empty-lock">🔒</div>
+          </div>
+          <div>
+            <div class="empty-title">המשרות המתאימות לך ממתינות</div>
+            <div class="empty-sub" style="margin-top:6px;">
+              כדי שה-AI ימצא משרות שמתאימות לפרופיל שלך, אנחנו צריכים קורות חיים.
+              זה לוקח 30 שניות.
+            </div>
+          </div>
+          <button class="upload-cta">📄 העלה קורות חיים עכשיו</button>
+          <div class="skip-link">אין לי קורות חיים, המשך בכל זאת</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="padding:0 20px 16px;">
+      <h3>מינימלי ומדויק</h3>
+      <p>מסר ברור, CTA אחד חזק. פשוט ליישום, עובד מצוין על מובייל. אין noise.</p>
+    </div>
+  </div>
+
+  <!-- OPTION B: Unlock panel -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)" style="padding:0;overflow:hidden;">
+    <div style="padding:16px 20px 0;">
+      <div class="lbl"><span>B</span> "Unlock" Panel — מה פותחים עם הקורות חיים</div>
+    </div>
+    <div style="padding:12px 20px 20px;">
+      <div class="shell">
+        <div class="tab-bar">
+          <div class="tab active">💼 גילוי משרות</div>
+          <div class="tab">📋 טראקר</div>
+        </div>
+        <div class="empty-b-wrap">
+          <div class="empty-b-hero">
+            <div class="hero-icon-box">🚀</div>
+            <div class="hero-text">
+              <div class="hero-title">פתח את חיפוש העבודה החכם שלך</div>
+              <div class="hero-desc">
+                העלאת קורות חיים מאפשרת ל-AI למצוא משרות מותאמות אישית, להסביר למה כל משרה מתאימה לך, ולהכין מכתב פנייה בלחיצה.
+              </div>
+            </div>
+          </div>
+
+          <div class="unlock-label">מה נפתח אחרי ההעלאה</div>
+          <div class="unlock-grid">
+            <div class="unlock-item">
+              <div class="unlock-item-icon" style="background:rgba(234,179,8,0.12);color:#f59e0b;">🎯</div>
+              <div style="flex:1;">
+                <div class="unlock-item-name">משרות מותאמות AI</div>
+                <div class="unlock-item-sub">לפי הכישורים שלך</div>
+              </div>
+              <div class="lock-chip">🔒</div>
+            </div>
+            <div class="unlock-item">
+              <div class="unlock-item-icon" style="background:rgba(99,102,241,0.12);color:#818cf8;">📄</div>
+              <div style="flex:1;">
+                <div class="unlock-item-name">מכתב פנייה מהיר</div>
+                <div class="unlock-item-sub">בלחיצה אחת</div>
+              </div>
+              <div class="lock-chip">🔒</div>
+            </div>
+            <div class="unlock-item">
+              <div class="unlock-item-icon" style="background:rgba(96,165,250,0.12);color:#60a5fa;">💡</div>
+              <div style="flex:1;">
+                <div class="unlock-item-name">הסבר ל-Fit Score</div>
+                <div class="unlock-item-sub">למה המשרה מתאימה</div>
+              </div>
+              <div class="lock-chip">🔒</div>
+            </div>
+            <div class="unlock-item">
+              <div class="unlock-item-icon" style="background:rgba(74,222,128,0.12);color:oklch(0.60 0.17 162);">📋</div>
+              <div style="flex:1;">
+                <div class="unlock-item-name">טראקר בקשות</div>
+                <div class="unlock-item-sub">מעקב עד לקבלה</div>
+              </div>
+              <div class="lock-chip">🔒</div>
+            </div>
+          </div>
+
+          <div class="upload-area">
+            <div class="upload-area-icon">📎</div>
+            <div class="upload-area-title">גרור קובץ לכאן, או לחץ לבחירה</div>
+            <div class="upload-area-sub">אנחנו מנתחים ושומרים כדי שלא תצטרך להעלות שוב</div>
+            <div class="upload-formats">
+              <span class="fmt-chip">PDF</span>
+              <span class="fmt-chip">DOCX</span>
+              <span class="fmt-chip">עד 5MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="padding:0 20px 16px;">
+      <h3>Unlock Panel — ערך לפני פעולה</h3>
+      <p>מציג מה המשתמש מפסיד לפני שמבקש action. גבוה יותר מוטיבציה להעלות, אך כבד יותר ב-UI.</p>
+    </div>
+  </div>
+
+  <!-- OPTION C: Inline banner over blurred content -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)" style="padding:0;overflow:hidden;">
+    <div style="padding:16px 20px 0;">
+      <div class="lbl"><span>C</span> Inline Banner — Banner + Blurred Ghost Content</div>
+    </div>
+    <div style="padding:12px 20px 20px;">
+      <div class="shell">
+        <div class="tab-bar">
+          <div class="tab active">💼 גילוי משרות</div>
+          <div class="tab">📋 טראקר</div>
+        </div>
+        <div class="inline-banner">
+          <div class="banner-left">
+            <div class="banner-icon">📄</div>
+            <div>
+              <div class="banner-title">העלה קורות חיים כדי לגלות משרות מותאמות</div>
+              <div class="banner-sub">ה-AI ינתח את הפרופיל שלך וימצא את ההתאמות הכי טובות</div>
+            </div>
+          </div>
+          <button class="banner-btn">העלה עכשיו →</button>
+        </div>
+        <div class="ghost-content">
+          <div class="ghost-row"></div>
+          <div class="ghost-row"></div>
+          <div class="ghost-row"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="padding:0 20px 16px;">
+      <h3>Banner + Ghost — רמז לתוכן נעול</h3>
+      <p>הפייבר ומוצרי SaaS אוהבים זה — מרמז שיש תוכן מאחורה ומעלה FOMO. הכי "פרודקטי" מבין השלושה.</p>
+    </div>
+  </div>
+
+</div>

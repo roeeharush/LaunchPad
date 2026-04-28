@@ -2,13 +2,12 @@ export interface TechTrend {
   title: string
   summary: string
   whyNow: string
-  relevance: string
+  impact: string
   tag: string
 }
 
 export interface TechPulse {
-  username: string
-  topLanguages: string[]
+  generatedAt: string
   trends: TechTrend[]
 }
 
