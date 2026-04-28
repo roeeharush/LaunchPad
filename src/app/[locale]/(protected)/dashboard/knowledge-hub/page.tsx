@@ -1,7 +1,8 @@
 import { BookOpen } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { KnowledgeHubClient } from './_components/knowledge-hub-client'
-import type { KnowledgeBookmark } from '@/types/knowledge'
+import type { KnowledgeBookmark, KnowledgeArticle } from '@/types/knowledge'
 
 export default async function KnowledgeHubPage() {
   const supabase = await createClient()
@@ -19,6 +20,12 @@ export default async function KnowledgeHubPage() {
       .limit(50)
 
     initialBookmarks = (data ?? []) as KnowledgeBookmark[]
+  }
+
+  const t = await getTranslations('knowledge')
+  const articlesData = t.raw('articles') as {
+    sectionTitle: string
+    items: KnowledgeArticle[]
   }
 
   return (
@@ -39,7 +46,11 @@ export default async function KnowledgeHubPage() {
         </p>
       </div>
 
-      <KnowledgeHubClient initialBookmarks={initialBookmarks} />
+      <KnowledgeHubClient
+        initialBookmarks={initialBookmarks}
+        articles={articlesData.items}
+        articlesSectionTitle={articlesData.sectionTitle}
+      />
     </div>
   )
 }
