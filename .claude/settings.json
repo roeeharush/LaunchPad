@@ -56,7 +56,14 @@
       "Bash(node -e \"const json = require\\('./messages/he.json'\\); const knowledgeKeys = Object.keys\\(json.knowledge\\); console.log\\('Knowledge object keys in order:'\\); knowledgeKeys.forEach\\(\\(k, i\\) => console.log\\(\\\\`  [\\\\${i}] \\\\${k}\\\\`\\)\\); console.log\\('\\\\\\\\nLast 5 keys:'\\); knowledgeKeys.slice\\(-5\\).forEach\\(k => console.log\\(\\\\`  - \\\\${k}\\\\`\\)\\);\")",
       "Bash(node -e \"const m = require\\('./messages/he.json'\\); const keys = Object.keys\\(m.knowledge\\); console.log\\('Last key in knowledge:', keys[keys.length-1]\\); console.log\\('Article count:', m.knowledge.articles.items.length\\); console.log\\('Article IDs:', m.knowledge.articles.items.map\\(a => a.id\\)\\)\")",
       "Bash(node -e ' *)",
-      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); items=d['knowledge']['articles']['items']; print\\(f'Count: {len\\(items\\)}'\\); print\\(json.dumps\\(items[0], ensure_ascii=False, indent=2\\)\\)\")"
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); items=d['knowledge']['articles']['items']; print\\(f'Count: {len\\(items\\)}'\\); print\\(json.dumps\\(items[0], ensure_ascii=False, indent=2\\)\\)\")",
+      "Bash(node -e \"const p = require\\('pdf-parse'\\); console.log\\(typeof p, Object.keys\\(p || {}\\)\\)\")",
+      "Bash(node -e \"const p = require\\('pdf-parse'\\); console.log\\(typeof p, typeof p.default\\)\")",
+      "Bash(node -e \"const p = require\\('pdf-parse'\\); console.log\\(Object.keys\\(p\\).slice\\(0,6\\)\\)\")",
+      "Bash(node -e \"const p = require\\('pdf-parse'\\); console.log\\(typeof p.PDFParse, typeof p.parse, typeof p.extract\\)\")",
+      "Bash(node -e \"const p = require\\('pdf-parse'\\); const PDFParse = p.PDFParse; console.log\\(typeof PDFParse\\); const inst = new PDFParse\\({data: Buffer.from\\(''\\)}\\); console.log\\(typeof inst.getText\\)\")",
+      "Bash(node --input-type=module -e \"import\\('pdf-parse'\\).then\\(m => { console.log\\(typeof m.PDFParse, typeof m.default?.PDFParse\\) }\\)\")",
+      "Bash(node --input-type=module -e ' *)"
     ],
     "additionalDirectories": [
       "C:\\Projects\\Claude\\Projects\\SelfSoftware\\launchpad\\src\\app\\[locale]\\(protected)\\dashboard\\knowledge-hub"

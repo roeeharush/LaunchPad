@@ -55,11 +55,16 @@ export function UploadForm({ onResult, hiddenJobDescription }: UploadFormProps) 
     formData.append('jobDescription', jobDescription)
 
     startTransition(async () => {
-      const result: AnalyzeResult = await analyzeResumeAction(formData)
-      if (result.ok) {
-        onResult(result.record)
-      } else {
-        setError(result.error)
+      try {
+        const result: AnalyzeResult = await analyzeResumeAction(formData)
+        if (result.ok) {
+          onResult(result.record)
+        } else {
+          setError(result.error)
+        }
+      } catch (err) {
+        console.error('[UploadForm] analyzeResumeAction threw:', err)
+        setError('שגיאה בניתוח קורות החיים. אנא נסה שוב.')
       }
     })
   }

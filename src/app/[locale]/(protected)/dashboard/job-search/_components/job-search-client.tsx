@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Briefcase, ClipboardList, Upload, X } from 'lucide-react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { buttonVariants } from '@/components/ui/button'
@@ -110,6 +111,7 @@ export function JobSearchClient({
   initialApplications,
   resumeInfo: initialResumeInfo,
 }: JobSearchClientProps) {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState('discover')
   const [applications, setApplications] = useState<JobApplication[]>(initialApplications)
   const [resumeInfo, setResumeInfo] = useState(initialResumeInfo)
@@ -123,6 +125,7 @@ export function JobSearchClient({
       skills: record.analysis_json?.strengths ?? [],
     })
     setUploadModalOpen(false)
+    router.refresh()
   }
 
   function handleApplicationSaved(application: JobApplication) {
