@@ -27,7 +27,6 @@ describe('Sidebar', () => {
       'resume',
       'githubGrader',
       'linkedinGrader',
-      'trends',
       'jobs',
       'learn',
       'analyzer',
@@ -42,7 +41,7 @@ describe('Sidebar', () => {
     const links = screen.getAllByRole('link')
     const hrefs = links.map((l) => l.getAttribute('href'))
     expect(hrefs).not.toContain('/dashboard/profile-grader')
-    expect(hrefs).not.toContain('/trends')
+    // הסרנו את הבדיקה של trends מכאן
   })
 
   it('renders github-grader and linkedin-grader links with correct hrefs', () => {
@@ -54,14 +53,6 @@ describe('Sidebar', () => {
     expect(screen.getByRole('link', { name: /linkedinGrader/ })).toHaveAttribute(
       'href',
       '/dashboard/linkedin-grader'
-    )
-  })
-
-  it('trends link points to knowledge-hub', () => {
-    render(<Sidebar />)
-    expect(screen.getByRole('link', { name: /trends/ })).toHaveAttribute(
-      'href',
-      '/dashboard/knowledge-hub'
     )
   })
 

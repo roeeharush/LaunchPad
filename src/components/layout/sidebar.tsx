@@ -7,7 +7,6 @@ import {
   FileText,
   GitBranch,
   Link2,
-  TrendingUp,
   Briefcase,
   BookOpen,
   LayoutDashboard,
@@ -52,12 +51,7 @@ const navItems: { href: string; icon: typeof LayoutDashboard; key: NavKey; color
     key: 'linkedinGrader',
     color: 'oklch(0.58 0.21 291)',
   },
-  {
-    href: '/dashboard/knowledge-hub',
-    icon: TrendingUp,
-    key: 'trends',
-    color: 'oklch(0.60 0.17 162)',
-  },
+
   { href: '/dashboard/job-search', icon: Briefcase, key: 'jobs', color: 'oklch(0.75 0.16 60)' },
   { href: '/dashboard/knowledge-hub', icon: BookOpen, key: 'learn', color: 'oklch(0.65 0.15 211)' },
   { href: '/dashboard/job-analyzer', icon: Wand2, key: 'analyzer', color: 'oklch(0.58 0.21 291)' },
