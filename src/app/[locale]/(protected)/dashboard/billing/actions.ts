@@ -1,7 +1,6 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import type { Plan } from '@/types/profile'
 
 export async function upgradePlanAction(
   plan: 'pro' | 'elite'
@@ -17,7 +16,7 @@ export async function upgradePlanAction(
 
   const { error } = await supabase.from('profiles').upsert({
     id: user.id,
-    plan: plan as Plan,
+    plan,
     plan_updated_at: new Date().toISOString(),
   })
 
