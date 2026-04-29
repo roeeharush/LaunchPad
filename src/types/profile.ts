@@ -48,3 +48,5 @@ export interface ProfileAnalysisRecord {
   result_json: ProfileAnalysis | GitHubAnalysis | LinkedInAnalysis | null
   created_at: string
 }
+
+export type Plan = 'free' | 'pro' | 'elite'
