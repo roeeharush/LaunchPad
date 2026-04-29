@@ -33,7 +33,7 @@ describe('LoadingOverlay', () => {
     )
     expect(getByText('הודעה ראשונה')).toBeInTheDocument()
     act(() => {
-      vi.advanceTimersByTime(3000)
+      vi.advanceTimersByTime(3300)
     })
     expect(getByText('הודעה שנייה')).toBeInTheDocument()
   })

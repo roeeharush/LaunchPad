@@ -37,15 +37,21 @@ export const INTERVIEW_LOADING_TIP = 'תרגול עצמי בקול רם לפני
 
 export function LoadingOverlay({ isVisible, messages, tip }: LoadingOverlayProps) {
   const [index, setIndex] = useState(0)
+  const [visible, setVisible] = useState(true)
 
   useEffect(() => {
     if (!isVisible) return
     const interval = setInterval(() => {
-      setIndex((i) => (i + 1) % messages.length)
+      setVisible(false)
+      setTimeout(() => {
+        setIndex((i) => (i + 1) % messages.length)
+        setVisible(true)
+      }, 300)
     }, 3000)
     return () => {
       clearInterval(interval)
       setIndex(0)
+      setVisible(true)
     }
   }, [isVisible, messages.length])
 
@@ -75,7 +81,12 @@ export function LoadingOverlay({ isVisible, messages, tip }: LoadingOverlayProps
         </div>
 
         {/* Rotating message */}
-        <p className="text-sm font-semibold text-center">{messages[index]}</p>
+        <p
+          className="text-sm font-semibold text-center transition-opacity duration-300"
+          style={{ opacity: visible ? 1 : 0 }}
+        >
+          {messages[index]}
+        </p>
 
         {/* Indeterminate shimmer progress bar */}
         <div
