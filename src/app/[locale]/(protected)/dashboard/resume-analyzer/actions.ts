@@ -71,18 +71,7 @@ export async function analyzeResumeAction(formData: FormData): Promise<AnalyzeRe
 
   if (dbError || !record) {
     console.error('[analyzeResumeAction] DB insert failed:', dbError)
-    return {
-      ok: true,
-      record: {
-        id: crypto.randomUUID(),
-        user_id: user.id,
-        file_url: null,
-        extracted_text: extractedText,
-        analysis_json: analysis,
-        score: analysis.matchPercentage,
-        created_at: new Date().toISOString(),
-      },
-    }
+    return { ok: false, error: 'שמירת קורות החיים נכשלה. אנא נסה שוב.' }
   }
 
   return { ok: true, record: record as ResumeRecord }
