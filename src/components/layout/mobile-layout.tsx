@@ -4,15 +4,16 @@ import { useState } from 'react'
 import { Menu } from 'lucide-react'
 import { Sidebar } from './sidebar'
 import { cn } from '@/lib/utils'
+import type { Plan } from '@/types/profile'
 
-export function MobileLayout({ children }: { children: React.ReactNode }) {
+export function MobileLayout({ children, plan }: { children: React.ReactNode; plan?: Plan }) {
   const [open, setOpen] = useState(false)
 
   return (
     <div className="flex min-h-screen bg-ambient">
       {/* Desktop sidebar — always visible on md+ */}
       <div className="hidden md:block">
-        <Sidebar onNavigate={() => {}} />
+        <Sidebar plan={plan} onNavigate={() => {}} />
       </div>
 
       {/* Mobile drawer overlay */}
@@ -31,7 +32,7 @@ export function MobileLayout({ children }: { children: React.ReactNode }) {
           open ? 'translate-x-0' : 'translate-x-full'
         )}
       >
-        <Sidebar onNavigate={() => setOpen(false)} />
+        <Sidebar plan={plan} onNavigate={() => setOpen(false)} />
       </div>
 
       {/* Main content */}

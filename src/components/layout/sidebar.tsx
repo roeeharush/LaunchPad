@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
+import type { Plan } from '@/types/profile'
 
 type NavKey =
   | 'dashboard'
@@ -27,6 +28,26 @@ type NavKey =
   | 'learn'
   | 'analyzer'
   | 'billing'
+
+function PlanBadge({ plan }: { plan: Plan }) {
+  const config = {
+    free: {
+      label: 'חינם',
+      bg: 'oklch(0.585 0.212 264.4 / 20%)',
+      color: 'oklch(0.585 0.212 264.4)',
+    },
+    pro: { label: 'Pro ⚡', bg: 'oklch(0.58 0.21 291 / 20%)', color: 'oklch(0.58 0.21 291)' },
+    elite: { label: 'Elite 👑', bg: 'oklch(0.75 0.16 60 / 20%)', color: 'oklch(0.75 0.16 60)' },
+  }[plan]
+  return (
+    <span
+      className="text-xs px-2 py-0.5 rounded-full font-semibold"
+      style={{ background: config.bg, color: config.color }}
+    >
+      {config.label}
+    </span>
+  )
+}
 
 const navItems: { href: string; icon: typeof LayoutDashboard; key: NavKey; color: string }[] = [
   {
@@ -61,9 +82,10 @@ const navItems: { href: string; icon: typeof LayoutDashboard; key: NavKey; color
 
 interface SidebarProps {
   onNavigate?: () => void
+  plan?: Plan
 }
 
-export function Sidebar({ onNavigate }: SidebarProps) {
+export function Sidebar({ onNavigate, plan = 'free' }: SidebarProps) {
   const t = useTranslations('nav')
   const pathname = usePathname()
 
@@ -190,15 +212,7 @@ export function Sidebar({ onNavigate }: SidebarProps) {
             <CreditCard className="h-4 w-4" />
           </span>
           <span className="flex-1">{t('billing')}</span>
-          <span
-            className="text-xs px-2 py-0.5 rounded-full font-semibold"
-            style={{
-              background: 'oklch(0.585 0.212 264.4 / 20%)',
-              color: 'oklch(0.585 0.212 264.4)',
-            }}
-          >
-            חינם
-          </span>
+          <PlanBadge plan={plan} />
         </Link>
 
         {/* Logout */}
