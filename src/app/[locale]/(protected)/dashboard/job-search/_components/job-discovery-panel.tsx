@@ -1,11 +1,16 @@
 'use client'
 
 import { useState, useTransition, useMemo } from 'react'
-import { Briefcase, Wifi, Sparkles, Loader2, Plus, CheckCircle2 } from 'lucide-react'
+import { Briefcase, Wifi, Sparkles, Loader2, Plus, CheckCircle2, ExternalLink } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { generateJobSuggestionsAction, saveApplicationAction } from '../actions'
 import type { JobSuggestion, JobSuggestionsResult, JobApplication } from '@/types/jobs'
+import {
+  LoadingOverlay,
+  JOB_LOADING_MESSAGES,
+  JOB_LOADING_TIP,
+} from '@/components/ui/loading-overlay'
 
 interface JobDiscoveryPanelProps {
   onApplicationSaved: (application: JobApplication) => void
@@ -20,6 +25,9 @@ function JobCard({
   onSave: (job: JobSuggestion) => void
   isSaved: boolean
 }) {
+  const applyUrl = `https://www.google.com/search?q=${encodeURIComponent(`${job.title} ${job.company} משרה`)}`
+  const YELLOW = 'oklch(0.75 0.16 60)'
+
   return (
     <div
       className="rounded-2xl p-5 border flex flex-col gap-3 group"
@@ -106,6 +114,18 @@ function JobCard({
         </p>
         <p className="text-xs text-muted-foreground mt-1">{job.salaryRange}</p>
       </div>
+
+      {/* Apply Now */}
+      <a
+        href={applyUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cn(buttonVariants({ size: 'sm' }), 'w-full gap-2 justify-center font-semibold mt-1')}
+        style={{ background: YELLOW, color: 'oklch(0.15 0.02 60)' }}
+      >
+        <ExternalLink className="w-3.5 h-3.5" />
+        הגש מועמדות עכשיו
+      </a>
     </div>
   )
 }
@@ -187,7 +207,9 @@ export function JobDiscoveryPanel({ onApplicationSaved }: JobDiscoveryPanelProps
   }
 
   return (
-    <div className="space-y-6">
+    <>
+      <LoadingOverlay isVisible={isPending} messages={JOB_LOADING_MESSAGES} tip={JOB_LOADING_TIP} />
+      <div className="space-y-6">
       {/* Generate button */}
       <div className="flex items-start gap-4">
         <button
@@ -336,6 +358,7 @@ export function JobDiscoveryPanel({ onApplicationSaved }: JobDiscoveryPanelProps
           </p>
         </div>
       )}
-    </div>
+      </div>
+    </>
   )
 }

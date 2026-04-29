@@ -5,6 +5,11 @@ import { Wand2, Loader2, FileText, Star, MessageSquare } from 'lucide-react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import {
+  LoadingOverlay,
+  INTERVIEW_LOADING_MESSAGES,
+  INTERVIEW_LOADING_TIP,
+} from '@/components/ui/loading-overlay'
 import { analyzeJobListingAction } from '../actions'
 import { CoverLetterPanel } from './cover-letter-panel'
 import { SkillsPanel } from './skills-panel'
@@ -43,7 +48,13 @@ export function JobAnalyzerClient() {
   }
 
   return (
-    <div className="space-y-8">
+    <>
+      <LoadingOverlay
+        isVisible={isPending}
+        messages={INTERVIEW_LOADING_MESSAGES}
+        tip={INTERVIEW_LOADING_TIP}
+      />
+      <div className="space-y-8">
       {/* Input form */}
       <form onSubmit={handleSubmit} className="space-y-4">
         <textarea
@@ -179,6 +190,7 @@ export function JobAnalyzerClient() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </>
   )
 }
