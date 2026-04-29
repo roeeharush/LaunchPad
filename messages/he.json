@@ -121,17 +121,17 @@
       "testimonials": [
         {
           "name": "נועה ל.",
-          "role": "מתמחה Frontend, Google IL",
+          "role": "מתמחה Frontend",
           "text": "שיניתי את הכותרת ב-LinkedIn לפי ההמלצות ותוך שבוע קיבלתי 3 הודעות ממגייסים. זה עובד."
         },
         {
           "name": "יואב מ.",
-          "role": "Junior Backend, Monday.com",
+          "role": "מפתח Backend Junior",
           "text": "הציון על קורות החיים שלי היה 61. אחרי השיפורים קפץ ל-89 ותוך חודש סגרתי עבודה."
         },
         {
           "name": "שירה ב.",
-          "role": "Data Analyst, Wix",
+          "role": "Data Analyst",
           "text": "הכי שימושי היה לראות בדיוק אילו מילות מפתח חסרות לי. בדיוק מה שצריך."
         }
       ]
