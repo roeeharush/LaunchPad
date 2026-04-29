@@ -30,7 +30,9 @@ describe('upgradePlanAction', () => {
     ;(createClient as unknown as ReturnType<typeof vi.fn>).mockResolvedValue(makeMockClient(null))
     const result = await upgradePlanAction('pro')
     expect(result.ok).toBe(false)
-    expect(result.error).toBeDefined()
+    if (!result.ok) {
+      expect(result.error).toBeDefined()
+    }
   })
 
   it('returns ok:true and upserts the plan when authenticated', async () => {
@@ -53,6 +55,8 @@ describe('upgradePlanAction', () => {
     )
     const result = await upgradePlanAction('pro')
     expect(result.ok).toBe(false)
-    expect(result.error).toBeDefined()
+    if (!result.ok) {
+      expect(result.error).toBeDefined()
+    }
   })
 })
