@@ -4,6 +4,11 @@ import { useState, useRef, useTransition, type DragEvent } from 'react'
 import { Upload, FileText, Loader2, Briefcase, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import {
+  LoadingOverlay,
+  CV_LOADING_MESSAGES,
+  CV_LOADING_TIP,
+} from '@/components/ui/loading-overlay'
 import { analyzeResumeAction, type AnalyzeResult } from '../actions'
 import type { ResumeRecord } from '@/types/resume'
 
@@ -70,7 +75,9 @@ export function UploadForm({ onResult, hiddenJobDescription }: UploadFormProps) 
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <>
+      <LoadingOverlay isVisible={isPending} messages={CV_LOADING_MESSAGES} tip={CV_LOADING_TIP} />
+      <form onSubmit={handleSubmit} className="space-y-4">
       {/* Drop zone */}
       <div
         onDragOver={(e) => {
@@ -211,6 +218,7 @@ export function UploadForm({ onResult, hiddenJobDescription }: UploadFormProps) 
           'נתח קורות חיים'
         )}
       </Button>
-    </form>
+      </form>
+    </>
   )
 }
