@@ -8,7 +8,8 @@
     "learn": "מרכז ידע",
     "analyzer": "מנתח משרות",
     "githubGrader": "GitHub Grader",
-    "linkedinGrader": "LinkedIn Grader"
+    "linkedinGrader": "LinkedIn Grader",
+    "billing": "תוכנית"
   },
   "landing": {
     "nav": {
@@ -158,9 +159,35 @@
   },
   "dashboard": {
     "welcome": "ברוך הבא",
+    "welcomeBack": "ברוך שובך",
+    "readyToLaunch": "מוכן להמריא?",
     "resumeScore": "ציון קורות חיים",
     "noAnalysis": "טרם נותחו קורות חיים",
-    "startNow": "התחל עכשיו"
+    "startNow": "התחל עכשיו",
+    "noScore": "טרם נותח",
+    "analyses": "ניתוחים",
+    "applications": "בקשות עבודה",
+    "nextSteps": "הצעדים הבאים",
+    "stepUploadResume": "העלה קורות חיים",
+    "stepUploadResumeDesc": "תן ל-AI לנתח את הפרופיל שלך",
+    "stepLinkedIn": "נתח LinkedIn",
+    "stepLinkedInDesc": "שפר את הנוכחות המקצועית שלך",
+    "stepGitHub": "דרג GitHub",
+    "stepGitHubDesc": "הצג את תיק העבודות שלך",
+    "stepFindJobs": "מצא משרות",
+    "stepFindJobsDesc": "גלה משרות מותאמות לפרופיל שלך",
+    "allDone": "הכל עשוי!",
+    "allDoneDesc": "פרופיל מלא — המשך לחקור את הכלים"
+  },
+  "billing": {
+    "title": "תוכנית ותשלומים",
+    "currentPlan": "תוכנית נוכחית",
+    "free": "חינם",
+    "freePlanDesc": "כלים בסיסיים לחיפוש עבודה",
+    "upgradeDesc": "גישה לכל הכלים ללא הגבלה",
+    "features": "יכולות תוכנית Pro",
+    "upgradeButton": "שדרג עכשיו",
+    "included": "כלול בתוכנית"
   },
   "resume": {
     "title": "ניתוח קורות חיים",
