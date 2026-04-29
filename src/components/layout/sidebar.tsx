@@ -12,6 +12,7 @@ import {
   LayoutDashboard,
   LogOut,
   Wand2,
+  CreditCard,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
@@ -25,6 +26,7 @@ type NavKey =
   | 'jobs'
   | 'learn'
   | 'analyzer'
+  | 'billing'
 
 const navItems: { href: string; icon: typeof LayoutDashboard; key: NavKey; color: string }[] = [
   {
@@ -147,7 +149,59 @@ export function Sidebar({ onNavigate }: SidebarProps) {
       </nav>
 
       {/* Footer */}
-      <div className="px-3 pb-4 pt-2 border-t" style={{ borderColor: 'var(--sidebar-border)' }}>
+      <div
+        className="px-3 pb-4 pt-2 border-t space-y-0.5"
+        style={{ borderColor: 'var(--sidebar-border)' }}
+      >
+        {/* Billing / plan indicator */}
+        <Link
+          href="/dashboard/billing"
+          onClick={onNavigate}
+          className={cn(
+            'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium w-full',
+            'transition-all duration-150',
+            pathname.includes('/billing')
+              ? 'text-foreground'
+              : 'text-muted-foreground hover:text-foreground'
+          )}
+          style={
+            pathname.includes('/billing')
+              ? {
+                  background: 'oklch(0.585 0.212 264.4 / 15%)',
+                  boxShadow: 'inset 0 0 0 1px oklch(0.585 0.212 264.4 / 25%)',
+                }
+              : undefined
+          }
+          onMouseEnter={(e) => {
+            if (!pathname.includes('/billing'))
+              e.currentTarget.style.background = 'var(--sidebar-accent)'
+          }}
+          onMouseLeave={(e) => {
+            if (!pathname.includes('/billing')) e.currentTarget.style.background = ''
+          }}
+        >
+          <span
+            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+            style={{
+              background: 'oklch(0.585 0.212 264.4 / 15%)',
+              color: 'oklch(0.585 0.212 264.4)',
+            }}
+          >
+            <CreditCard className="h-4 w-4" />
+          </span>
+          <span className="flex-1">{t('billing')}</span>
+          <span
+            className="text-xs px-2 py-0.5 rounded-full font-semibold"
+            style={{
+              background: 'oklch(0.585 0.212 264.4 / 20%)',
+              color: 'oklch(0.585 0.212 264.4)',
+            }}
+          >
+            חינם
+          </span>
+        </Link>
+
+        {/* Logout */}
         <button
           onClick={handleLogout}
           className={cn(
